@@ -1,0 +1,9 @@
+---
+title: "E155 LAB 1: FPGA & MCU Setup & Testing"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: false
+---
+

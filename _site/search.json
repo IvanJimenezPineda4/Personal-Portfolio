@@ -1,17 +1,10 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "E155 Portfolio",
+    "objectID": "Resources.html",
+    "href": "Resources.html",
+    "title": "Resources",
     "section": "",
-    "text": "Hello! My name is Ivan, and I’m a junior at Harvey Mudd College studying Engineering with a focus on robotics and automation. I enjoy working on projects that involve programming, electronics, and mechanical design. This portfolio showcases some of the work I’ve done in my classes and personal projects!\nLink to Github"
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "E155 Blog",
-    "section": "",
-    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 8, 2026\n\n\nIvan Jimenez Pineda\n\n\n\n\n\nNo matching items"
+    "text": "Link to course website"
   },
   {
     "objectID": "LAB1.html",
@@ -28,32 +21,18 @@
     "text": "The purpose of this lab was to assemble a development board with an FPGA and MCU on-board. Then, digital designs were implemented using SystemVerilog to verify the hardware functionality. The board utilizes the onboard high-speed oscillator to drive a 2.4 Hz LED blink, map discrete logic to additional LEDs based on DIP switch inputs, and decode a 4-bit binary input to display hexadecimal characters 0 through F on a 7-segment display.\nView the Source Code on GitHub"
   },
   {
-    "objectID": "LAB1.html#calculations",
-    "href": "LAB1.html#calculations",
-    "title": "E155 LAB 1: FPGA & MCU Setup & Testing",
-    "section": "Calculations",
-    "text": "Calculations\n\nLED Blink Rate\nThe specification requires led[2] to blink at exactly \\(2.4\\text{ Hz}\\). The internal HSOSC primitive was configured with a divider of 2'b01, producing a \\(24\\text{ MHz}\\) clock. To achieve a \\(2.4\\text{ Hz}\\) full blink cycle (ON and OFF), the LED must toggle its state \\(4.8\\) times per second.\nThe required clock cycles per toggle is calculated as: \\[ \\frac{24,000,000\\text{ Hz}}{4.8\\text{ Hz}} = 5,000,000\\text{ cycles} \\]\nBy implementing a zero-indexed counter that resets at \\(4,999,999\\), the design accurately achieves the target \\(2.4\\text{ Hz}\\) blink rate.\n\n\n7-Segment Display Current Draw\nThe 7-segment display used is a common-anode MAN6400 series (High Efficiency Green)[cite: 4, 6]. The display is driven by the FPGA’s \\(3.3\\text{V}\\) logic. According to the datasheet, the typical forward voltage (\\(V_F\\)) for these segments is \\(2.1\\text{V}\\), and the maximum continuous forward current (\\(I_F\\)) is \\(30\\text{ mA}\\)[cite: 4].\nTo safely limit the current, I placed a \\([INSERT RESISTOR VALUE]\\Omega\\) resistor in series with each segment cathode. The current draw per segment is calculated as: \\[ I = \\frac{V_{CC} - V_F}{R} = \\frac{3.3\\text{V} - 2.1\\text{V}}{[INSERT RESISTOR VALUE]\\Omega} = [INSERT CALCULATED CURRENT]\\text{ mA} \\]\nThis value is well within the recommended \\(5\\text{ mA}\\) to \\(20\\text{ mA}\\) operating range and safely below the \\(30\\text{ mA}\\) absolute maximum[cite: 4, 6]."
-  },
-  {
-    "objectID": "LAB1.html#design-and-architecture",
-    "href": "LAB1.html#design-and-architecture",
-    "title": "E155 LAB 1: FPGA & MCU Setup & Testing",
-    "section": "Design and Architecture",
-    "text": "Design and Architecture\n\nBlock Diagram & Schematic\nBelow is the block diagram illustrating the system’s hierarchy and the schematic detailing the wiring for the MAN6400 7-segment display and pull-up resistors.\n\n\nView Block Diagram & Schematic\n\n \n\n\n\nSystemVerilog Implementation\nThe design follows a strict hierarchical structure, containing only instantiated modules and simple assign logic at the top level. * seven_segment: A purely combinational decoder utilizing a case statement to map the 4-bit switch input to the corresponding active-low 7-segment display outputs. * counter: A sequential module using a single always_ff block with a hardcoded maximum count parameter to track the \\(5,000,000\\) cycles necessary for the \\(2.4\\text{ Hz}\\) toggle.\n\n\nView SystemVerilog Source Code\n\n// Insert link or code block for e155_lab1_ivan.sv here\n// Insert link or code block for e155_lab1_counter_ivan.sv here\n// Insert link or code block for seven_segment.sv here\n\n\n\n:::{#quarto-navigation-envelope .hidden}\n[E155 Portfolio]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl\"}\n\n[E155 Portfolio]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXItdGl0bGU=\"}\n\n[Home]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6SG9tZQ==\"}\n\n[/index.html]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6L2luZGV4Lmh0bWw=\"}\n\n[Blog]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6QmxvZw==\"}\n\n[/blog.html]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6L2Jsb2cuaHRtbA==\"}\n\n[LAB 1]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6TEFCIDE=\"}\n\n[/LAB1.html]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6L0xBQjEuaHRtbA==\"}\n:::\n\n\n:::{#quarto-listing-pipeline .hidden}\n[$e = mC^2$]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWVuYWJsZS1tYXRoLWlubGluZQ==\"}\n\n\n:::{.hidden .quarto-markdown-envelope-contents render-id=\"cGlwZWxpbmUtbGlzdGluZy1saXN0aW5n\"}\n\n\n::: {.list .quarto-listing-default}\n\n::: {.quarto-post .image-right data-index='0' data-categories='cmVmbGVjdGlvbiUyQ2xhYnJlcG9ydA==' data-listing-date-sort='1788850800000' data-listing-file-modified-sort='1788959530681' data-listing-date-modified-sort='NaN' data-listing-reading-time-sort='1' data-listing-word-count-sort='1'}\n\n```{=html}\n&lt;div class=\"thumbnail\"&gt;&lt;a href=\"/posts\\first-post.qmd\" class=\"no-external\"&gt;\n\n&lt;!-- img(9CEB782EFEE6)[progressive=false, height=, lazy=true]:listing:posts/first-post.html --&gt;\n\n&lt;/a&gt;&lt;/div&gt;\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 8, 2026\n\n\nIvan Jimenez Pineda\n\n\n\n:::\n:::\nNo matching items\n:::\n:::"
-  },
-  {
-    "objectID": "LAB1.html#methods-design",
-    "href": "LAB1.html#methods-design",
+    "objectID": "LAB1.html#methods",
+    "href": "LAB1.html#methods",
     "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "Methods & Design",
-    "text": "Methods & Design\n\nDevelopment Board Setup\n\nThe development board system was constructed by soldering surface mount technology (SMT) and through-hole technology (THT) components. The development boards used for the project were the UPduino v3.1 FPGA and the Nucleo-L432KC MCU, which were connected to the board via female header pins. Figure 1 below shows the components soldered to the board, including: DIP switches, LEDs, resistors, a capacitor, voltage regulators, and jumpers to provide power to the FPGA and MCU.\n\n Figure 1: Complete μP Dev Board with all components soldered.\n\n\nTesting FPGA & MCU\n\nBefore proceeding with the custom SystemVerilog implementation, the FPGA and MCU were individually tested using provided LED blink code to verify proper hardware function, ensuring that the soldering was successful and the flash memory could be programmed.\n\n\n\nFPGA Project Overview\n\nAfter hardware verification, the FPGA was programmed to complete the core lab tasks. Table 1 outlines the signal types used for the project. led[0] and led[1] were designed to map to the DIP switches according to Table 2 and Table 3, utilizing XOR and AND logic respectively. led[2] was designated to blink asynchronously at 2.4 Hz.\n\n Table 1: Signal name, type, and brief description for each signal used in the project.\n\n\n\n\n\n\n\n\nSignal Name\nSignal Type\nDescription\n\n\n\n\nclk\ninternal\n48 MHz clock on FPGA generated by HSOSC\n\n\ns[3:0]\ninput\nThe 4 DIP switches (SW6)\n\n\nled[2:0]\noutput\n3 LEDs (on-board LEDs)\n\n\nseg[6:0]\noutput\nCommon-anode 7-segment display segments\n\n\n\n Table 2: Expected behavior of led[0].\n\n\n\nS1\nS0\nled[0]\n\n\n\n\n0\n0\nOFF\n\n\n0\n1\nON\n\n\n1\n0\nON\n\n\n1\n1\nOFF\n\n\n\n Table 3: Expected behavior of led[1].\n\n\n\nS3\nS2\nled[1]\n\n\n\n\n0\n0\nOFF\n\n\n0\n1\nOFF\n\n\n1\n0\nOFF\n\n\n1\n1\nON\n\n\n\n\n\nFor the 7-segment display, the four DIP switches correspond to a 4-bit binary number that produces hexadecimal characters 0 to F. For example, a DIP switch input of 4'b1010 outputs the character A."
+    "section": "Methods",
+    "text": "Methods\n\nDevelopment Board Setup\nThe development board system was assembled by soldering surface mount technology (SMT) and through-hole technology (THT) components. The development boards used for the project were the UPduino v3.1 FPGA and the Nucleo-L432KC MCU, which were connected to the board via female header pins. See Figure 1.\n Figure 1: Complete Development Board Board with all components soldered.\n\n\nTesting FPGA & MCU\nThe FPGA and MCU were individually tested using provided LED blink code to verify proper hardware function, ensuring that the soldering was successful!\n\n\nFPGA Project Overview\nAfter hardware verification, the FPGA was programmed to complete the following tasks. Table 1 shows the signal types used for the project. led[0] and led[1] were designed to map to the DIP switches according to Table 2 and Table 3, utilizing XOR and AND logic. led[2] was designated to blink asynchronously at 2.4 Hz.\nTable 1: Signals used for this lab.\n\n\n\nSignal Name\nDescription\n\n\n\n\nclk\n48 MHz clock on FPGA generated by HSOSC\n\n\ns[3:0]\nThe 4 DIP switches (SW6)\n\n\nled[2:0]\n3 LEDs (on-board LEDs)\n\n\nseg[6:0]\n7-segment display\n\n\n\nTable 2: Truth table of led[0].\n\n\n\nS1\nS0\nled[0]\n\n\n\n\n0\n0\nOFF\n\n\n0\n1\nON\n\n\n1\n0\nON\n\n\n1\n1\nOFF\n\n\n\nTable 3: Truth table of led[1].\n\n\n\nS3\nS2\nled[1]\n\n\n\n\n0\n0\nOFF\n\n\n0\n1\nOFF\n\n\n1\n0\nOFF\n\n\n1\n1\nON\n\n\n\nFor the 7-segment display, the four DIP switches correspond to a 4-bit binary number that produces hexadecimal characters 0 to F. For example, a DIP switch input of 4'b1010 outputs the character A."
   },
   {
-    "objectID": "LAB1.html#technical-documentation",
-    "href": "LAB1.html#technical-documentation",
+    "objectID": "LAB1.html#documentation",
+    "href": "LAB1.html#documentation",
     "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "Technical Documentation",
-    "text": "Technical Documentation\n\nThe project was constructed using three strict hierarchical modules to meet specifications: a top-level module (e155_lab1_ivan.sv), a sequential counter (e155_lab1_counter_ivan.sv), and a combinational decoder (seven_segment.sv). Figure 2 below shows the block diagram relationship of the modules.\n\n Figure 2: Block diagram showing the top-level routing and submodules.\n\nLED Implementation & Clock Divider\n\nBy inspection of the truth tables, led[0] is driven by the XOR of inputs s[0] and s[1], while led[1] is driven by the AND of inputs s[2] and s[3]. These were implemented using continuous assign statements in the top module.\n\n\nTo generate a blinking frequency of 2.4 Hz for led[2], a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the CLKHF_DIV(2'b01) parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, the target toggle threshold is exactly 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of 4999999.\n\n\n\n7-Segment Implementation\n\nThe 7-segment display was designed using combinational logic to map the sixteen DIP switch states to output 0 to F. Because the selected MAN6400 series display utilizes a common-anode architecture, the FPGA pins must be driven LOW (active-low) to light up their respective segments. Figure 3 shows the schematic for how the display, LEDs, and pull-up resistors on the DIP switches were wired. Figure 4 provides the calculations for the current-limiting resistors required to operate the display safely within the 5 mA to 20 mA range, accounting for the 3.3V logic high and the 2.1V typical forward voltage of the LEDs.\n\n Figure 3: Schematic showing the wiring of the 7-segment display to the FPGA and DIP switches.\n  Figure 4: Calculations to justify the 7-segment display resistor values."
+    "section": "Documentation",
+    "text": "Documentation\nThe project was constructed using three system verilog modules including a top-level module (e155_lab1_ivan.sv), a sequential counter (e155_lab1_counter_ivan.sv), and a combinational decoder (seven_segment.sv). Figure 2 below shows the block diagram of the modules.\n Figure 2: Block diagram.\n\nLED Implementation & Clock Divider\nBy inspection of the truth tables, led[0] is driven by the XOR of inputs s[0] and s[1], while led[1] is driven by the AND of inputs s[2] and s[3]. These were implemented using assign statements in the top module.\nTo generate a blinking frequency of 2.4 Hz for led[2], a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the CLKHF_DIV(2'b01) parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, the we must toggle 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of 4999999.\n\n\n7-Segment Display Implementation\nThe 7-segment display was designed using combinational logic to map the sixteen DIP switch states to output 0 to F. Figure 3 shows the schematic for how the display, LEDs, and pull-up resistors on the DIP switches were wired.\n Figure 3: Schematic showing the wiring of the 7-segment display to the FPGA and DIP switches.\nFigure 4 provides the calculations for the current-limiting resistors required to operate the display safely within the 5 mA to 20 mA range, accounting for the 3.3V high and the 2.0V typical forward voltage of the LEDs.\n Figure 4: Calculations to justify the 7-segment display resistor values."
   },
   {
     "objectID": "LAB1.html#results-discussion",
@@ -70,24 +49,24 @@
     "text": "Conclusion & Demo\nAll designs were successfully implemented on the FPGA. The simulations matched expectations, and the physical hardware behaved exactly as intended. The lab took a total of 26 hours to complete.\nThrough this lab, hands-on practice was gained in assembling a development board, structuring SystemVerilog code, writing testbenches, and working with many hardware components."
   },
   {
-    "objectID": "LAB1.html#methods",
-    "href": "LAB1.html#methods",
-    "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "Methods",
-    "text": "Methods\n\nDevelopment Board Setup\nThe development board system was assembled by soldering surface mount technology (SMT) and through-hole technology (THT) components. The development boards used for the project were the UPduino v3.1 FPGA and the Nucleo-L432KC MCU, which were connected to the board via female header pins. See Figure 1.\n Figure 1: Complete Development Board Board with all components soldered.\n\n\nTesting FPGA & MCU\nThe FPGA and MCU were individually tested using provided LED blink code to verify proper hardware function, ensuring that the soldering was successful!\n\n\nFPGA Project Overview\nAfter hardware verification, the FPGA was programmed to complete the following tasks. Table 1 shows the signal types used for the project. led[0] and led[1] were designed to map to the DIP switches according to Table 2 and Table 3, utilizing XOR and AND logic. led[2] was designated to blink asynchronously at 2.4 Hz.\nTable 1: Signals used for this lab.\n\n\n\nSignal Name\nDescription\n\n\n\n\nclk\n48 MHz clock on FPGA generated by HSOSC\n\n\ns[3:0]\nThe 4 DIP switches (SW6)\n\n\nled[2:0]\n3 LEDs (on-board LEDs)\n\n\nseg[6:0]\n7-segment display\n\n\n\nTable 2: Truth table of led[0].\n\n\n\nS1\nS0\nled[0]\n\n\n\n\n0\n0\nOFF\n\n\n0\n1\nON\n\n\n1\n0\nON\n\n\n1\n1\nOFF\n\n\n\nTable 3: Truth table of led[1].\n\n\n\nS3\nS2\nled[1]\n\n\n\n\n0\n0\nOFF\n\n\n0\n1\nOFF\n\n\n1\n0\nOFF\n\n\n1\n1\nON\n\n\n\nFor the 7-segment display, the four DIP switches correspond to a 4-bit binary number that produces hexadecimal characters 0 to F. For example, a DIP switch input of 4'b1010 outputs the character A."
-  },
-  {
-    "objectID": "LAB1.html#documentation",
-    "href": "LAB1.html#documentation",
-    "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "Documentation",
-    "text": "Documentation\nThe project was constructed using three system verilog modules including a top-level module (e155_lab1_ivan.sv), a sequential counter (e155_lab1_counter_ivan.sv), and a combinational decoder (seven_segment.sv). Figure 2 below shows the block diagram of the modules.\n Figure 2: Block diagram.\n\nLED Implementation & Clock Divider\nBy inspection of the truth tables, led[0] is driven by the XOR of inputs s[0] and s[1], while led[1] is driven by the AND of inputs s[2] and s[3]. These were implemented using assign statements in the top module.\nTo generate a blinking frequency of 2.4 Hz for led[2], a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the CLKHF_DIV(2'b01) parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, the we must toggle 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of 4999999.\n\n\n7-Segment Display Implementation\nThe 7-segment display was designed using combinational logic to map the sixteen DIP switch states to output 0 to F. Figure 3 shows the schematic for how the display, LEDs, and pull-up resistors on the DIP switches were wired.\n Figure 3: Schematic showing the wiring of the 7-segment display to the FPGA and DIP switches.\nFigure 4 provides the calculations for the current-limiting resistors required to operate the display safely within the 5 mA to 20 mA range, accounting for the 3.3V high and the 2.0V typical forward voltage of the LEDs.\n Figure 4: Calculations to justify the 7-segment display resistor values."
-  },
-  {
     "objectID": "LAB1.html#ai-reflection",
     "href": "LAB1.html#ai-reflection",
     "title": "Lab 1: FPGA & MCU Setup & Testing",
     "section": "AI Reflection",
     "text": "AI Reflection\nAI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.\nInitially, ChatGPT was not able to to produce synthasizable code"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "E155 Blog",
+    "section": "",
+    "text": "Hello E155!\n\n\nI am excited to be taking E155 this semester! I am looking forward to learning more about digital design and embedded systems. This corse will help me develop my skills in hardware design and programming, and I am eager to apply these skills to real-world projects in the future.\n\n\n\n\n\nSep 8, 2026\n\n\nIvan Jimenez Pineda\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 Portfolio",
+    "section": "",
+    "text": "Hello! My name is Ivan, and I’m a junior at Harvey Mudd College studying Engineering with a focus on robotics and automation. I enjoy working on projects that involve programming, electronics, and mechanical design. This portfolio showcases some of the work I’ve done in my classes and personal projects!\nLink to Github"
   }
 ]

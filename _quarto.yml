@@ -11,6 +11,21 @@ website:
         text: Blog
       - href: LAB1.qmd
         text: LAB 1
+      - href: LAB2.qmd
+        text: LAB 2
+      - href: LAB3.qmd
+        text: LAB 3
+      - href: LAB4.qmd
+        text: LAB 4
+      - href: LAB5.qmd
+        text: LAB 5
+      - href: LAB6.qmd
+        text: LAB 6
+      - href: LAB7.qmd
+        text: LAB 7
+      - href: Resources.qmd
+        text: Resources
+
 
 format:
   html:

@@ -1,6 +1,6 @@
 ---
-title: "Hello Quarto"
-description: "Welcome to my Quarto portfolio"
+title: "Hello E155!"
+description: "I am excited to be taking E155 this semester! I am looking forward to learning more about digital design and embedded systems. This corse will help me develop my skills in hardware design and programming, and I am eager to apply these skills to real-world projects in the future.""
 author: "Ivan Jimenez Pineda"
 date: "9/8/2026"
 categories:

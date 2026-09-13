@@ -3,3 +3,4 @@ title: "Lab 6: The Internet of Things and Serial Peripheral Interface"
 subtitle: "Ivan Jimenez Pineda | ijimenezpineda@g.hmc.edu | 
 toc: false
 format: html
+---

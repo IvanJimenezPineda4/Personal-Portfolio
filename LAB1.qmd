@@ -1,6 +1,6 @@
 ---
 title: "Lab 1: FPGA & MCU Setup & Testing"
-subtitle: "Ivan Jimenez Pineda | ijimenezpineda@g.hmc.edu | September 9, 2026"
+subtitle: "Ivan Jimenez Pineda | ijimenezpineda@g.hmc.edu | September 14, 2026"
 toc: false
 format: html
 ---
@@ -89,18 +89,18 @@ The 7-segment display was designed using combinational logic to map the sixteen 
 
 ---
 
-## Results & Discussion
+## Results
 
 The design successfully accomplished all tasks. To verify the logic prior to programming the hardware, testbenches were written for every module and simulated in Questa Sim. The combinational testbench verified all 16 states of the 7-segment display, the sequential testbench confirmed the counter's active-low reset and enable functions, and the testbench verified the integration of the modules. *Figure 5* confirms that the outputs perfectly matched expectations.
 
-![Questa Sim waveform confirming LED and active-low 7-segment logic.](images/wavesim.jpg)
+![Questa Sim waveform confirming LED and active-low 7-segment logic.](images/waveforms_lab1.png)
 *Figure 5: Questa Sim waveform confirming LED and active-low 7-segment logic.*
 
 ---
 
-## Conclusion & Demo
+## Conclusion
 
-All designs were successfully implemented on the FPGA. The simulations matched expectations, and the physical hardware behaved exactly as intended. The lab took a total of 26 hours to complete. 
+All designs were successfully implemented on the FPGA. The simulations matched expectations, and the physical hardware behaved exactly as intended. The lab took a total of 32 hours to complete. 
 
 Through this lab, hands-on practice was gained in assembling a development board, structuring SystemVerilog code, writing testbenches, and working with many hardware components.
 
@@ -110,4 +110,7 @@ Through this lab, hands-on practice was gained in assembling a development board
 
 AI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.
 
-Initially, ChatGPT was not able to to produce synthasizable code 
+The prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failled with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063.
+When the error was fed back to ChatGPT, it was not able to correct it. 
+
+Overall, I would rate the quality of ChatGPT's output as a 5/10 because it did correctly calculate that a 48MHz clock required a 12,000,000 count to toggle twice a second for a 2Hz blink rate but it could not correct error messages from the synthesis. 

@@ -73,7 +73,7 @@ The project was constructed using three system verilog modules including a top-l
 
 By inspection of the truth tables, `led[0]` is driven by the XOR of inputs `s[0]` and `s[1]`, while `led[1]` is driven by the AND of inputs `s[2]` and `s[3]`. These were implemented using `assign` statements in the top module. 
 
-To generate a blinking frequency of 2.4 Hz for `led[2]`, a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the `CLKHF_DIV(2'b01)` parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, the we must toggle 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of `4999999`.
+To generate a blinking frequency of 2.4 Hz for `led[2]`, a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the `CLKHF_DIV(2'b01)` parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, we must toggle 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of `4999999`.
 
 ### 7-Segment Display Implementation
 
@@ -110,7 +110,7 @@ Through this lab, hands-on practice was gained in assembling a development board
 
 AI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.
 
-The prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failled with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063.
+The prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failed with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063.
 When the error was fed back to ChatGPT, it was not able to correct it. 
 
 Overall, I would rate the quality of ChatGPT's output as a 5/10 because it did correctly calculate that a 48MHz clock required a 12,000,000 count to toggle twice a second for a 2Hz blink rate but it could not correct error messages from the synthesis. 

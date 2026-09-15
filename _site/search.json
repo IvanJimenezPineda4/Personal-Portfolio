@@ -32,42 +32,7 @@
     "href": "LAB1.html#documentation",
     "title": "Lab 1: FPGA & MCU Setup & Testing",
     "section": "Documentation",
-    "text": "Documentation\nThe project was constructed using three system verilog modules including a top-level module (e155_lab1_ivan.sv), a sequential counter (e155_lab1_counter_ivan.sv), and a combinational decoder (seven_segment.sv). Figure 2 below shows the block diagram of the modules.\n Figure 2: Block diagram.\n\nLED Implementation & Clock Divider\nBy inspection of the truth tables, led[0] is driven by the XOR of inputs s[0] and s[1], while led[1] is driven by the AND of inputs s[2] and s[3]. These were implemented using assign statements in the top module.\nTo generate a blinking frequency of 2.4 Hz for led[2], a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the CLKHF_DIV(2'b01) parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, the we must toggle 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of 4999999.\n\n\n7-Segment Display Implementation\nThe 7-segment display was designed using combinational logic to map the sixteen DIP switch states to output 0 to F. Figure 3 shows the schematic for how the display, LEDs, and pull-up resistors on the DIP switches were wired.\n Figure 3: Schematic showing the wiring of the 7-segment display to the FPGA and DIP switches.\nFigure 4 provides the calculations for the current-limiting resistors required to operate the display safely within the 5 mA to 20 mA range, accounting for the 3.3V high and the 2.0V typical forward voltage of the LEDs.\n Figure 4: Calculations to justify the 7-segment display resistor values."
-  },
-  {
-    "objectID": "LAB1.html#results-discussion",
-    "href": "LAB1.html#results-discussion",
-    "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "Results & Discussion",
-    "text": "Results & Discussion\nThe design successfully accomplished all tasks. To verify the logic prior to programming the hardware, testbenches were written for every module and simulated in Questa Sim. The combinational testbench verified all 16 states of the 7-segment display, the sequential testbench confirmed the counter’s active-low reset and enable functions, and the testbench verified the integration of the modules. Figure 5 confirms that the outputs perfectly matched expectations.\n Figure 5: Questa Sim waveform confirming LED and active-low 7-segment logic."
-  },
-  {
-    "objectID": "LAB1.html#conclusion-demo",
-    "href": "LAB1.html#conclusion-demo",
-    "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "Conclusion & Demo",
-    "text": "Conclusion & Demo\nAll designs were successfully implemented on the FPGA. The simulations matched expectations, and the physical hardware behaved exactly as intended. The lab took a total of 26 hours to complete.\nThrough this lab, hands-on practice was gained in assembling a development board, structuring SystemVerilog code, writing testbenches, and working with many hardware components."
-  },
-  {
-    "objectID": "LAB1.html#ai-reflection",
-    "href": "LAB1.html#ai-reflection",
-    "title": "Lab 1: FPGA & MCU Setup & Testing",
-    "section": "AI Reflection",
-    "text": "AI Reflection\nAI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.\nThe prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failled with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063. When the error was fed back to ChatGPT, it was not able to correct it.\nOverall, I would rate the quality of ChatGPT’s output as a 5/10 because it did correctly calculate that a 48MHz clock required a 12,000,000 count to toggle twice a second for a 2Hz blink rate but it could not correct error messages from the synthesis."
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "E155 Blog",
-    "section": "",
-    "text": "Hello E155!\n\n\nI am excited to be taking E155 this semester! I am looking forward to learning more about digital design and embedded systems. This corse will help me develop my skills in hardware design and programming, and I am eager to apply these skills to real-world projects in the future.\n\n\n\n\n\nSep 8, 2026\n\n\nIvan Jimenez Pineda\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "E155 Portfolio",
-    "section": "",
-    "text": "Hello! My name is Ivan, and I’m a junior at Harvey Mudd College studying Engineering with a focus on robotics and automation. I enjoy working on projects that involve programming, electronics, and mechanical design. This portfolio showcases some of the work I’ve done in my classes and personal projects!\nLink to Github"
+    "text": "Documentation\nThe project was constructed using three system verilog modules including a top-level module (e155_lab1_ivan.sv), a sequential counter (e155_lab1_counter_ivan.sv), and a combinational decoder (seven_segment.sv). Figure 2 below shows the block diagram of the modules.\n Figure 2: Block diagram.\n\nLED Implementation & Clock Divider\nBy inspection of the truth tables, led[0] is driven by the XOR of inputs s[0] and s[1], while led[1] is driven by the AND of inputs s[2] and s[3]. These were implemented using assign statements in the top module.\nTo generate a blinking frequency of 2.4 Hz for led[2], a sequential counter module was designed. The 48 MHz on-board HSOSC was first divided in half using the CLKHF_DIV(2'b01) parameter, producing a 24 MHz clock. A blink rate of 2.4 Hz requires the LED to complete a full ON-OFF cycle 2.4 times per second, meaning the signal must toggle its state 4.8 times per second. By dividing 24,000,000 Hz by 4.8, we must toggle 5,000,000 clock cycles. A zero-indexed counter was implemented to trigger a toggle and reset upon reaching a max count of 4999999.\n\n\n7-Segment Display Implementation\nThe 7-segment display was designed using combinational logic to map the sixteen DIP switch states to output 0 to F. Figure 3 shows the schematic for how the display, LEDs, and pull-up resistors on the DIP switches were wired.\n Figure 3: Schematic showing the wiring of the 7-segment display to the FPGA and DIP switches.\nFigure 4 provides the calculations for the current-limiting resistors required to operate the display safely within the 5 mA to 20 mA range, accounting for the 3.3V high and the 2.0V typical forward voltage of the LEDs.\n Figure 4: Calculations to justify the 7-segment display resistor values."
   },
   {
     "objectID": "LAB1.html#results",
@@ -82,5 +47,26 @@
     "title": "Lab 1: FPGA & MCU Setup & Testing",
     "section": "Conclusion",
     "text": "Conclusion\nAll designs were successfully implemented on the FPGA. The simulations matched expectations, and the physical hardware behaved exactly as intended. The lab took a total of 32 hours to complete.\nThrough this lab, hands-on practice was gained in assembling a development board, structuring SystemVerilog code, writing testbenches, and working with many hardware components."
+  },
+  {
+    "objectID": "LAB1.html#ai-reflection",
+    "href": "LAB1.html#ai-reflection",
+    "title": "Lab 1: FPGA & MCU Setup & Testing",
+    "section": "AI Reflection",
+    "text": "AI Reflection\nAI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.\nThe prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failed with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063. When the error was fed back to ChatGPT, it was not able to correct it.\nOverall, I would rate the quality of ChatGPT’s output as a 5/10 because it did correctly calculate that a 48MHz clock required a 12,000,000 count to toggle twice a second for a 2Hz blink rate but it could not correct error messages from the synthesis."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "E155 Blog",
+    "section": "",
+    "text": "Hello E155!\n\n\nI am excited to be taking E155 this semester! I am looking forward to learning more about digital design and embedded systems. This corse will help me develop my skills in hardware design and programming, and I am eager to apply these skills to real-world projects in the future.\n\n\n\n\n\nSep 8, 2026\n\n\nIvan Jimenez Pineda\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 Portfolio",
+    "section": "",
+    "text": "Hello! My name is Ivan, and I’m a junior at Harvey Mudd College studying Engineering with a focus on robotics and automation. I enjoy working on projects that involve programming, electronics, and mechanical design. This portfolio showcases some of the work I’ve done in my classes and personal projects!\nLink to Github"
   }
 ]

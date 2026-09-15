@@ -96,6 +96,11 @@ The design successfully accomplished all tasks. To verify the logic prior to pro
 ![Questa Sim waveform confirming LED and active-low 7-segment logic.](images/waveforms_lab1.png)
 *Figure 5: Questa Sim waveform confirming LED and active-low 7-segment logic.*
 
+![Questa Sim waveform confirming counter module.](images/waves2.png)
+*Figure 6: Questa Sim waveform confirming counter module.*
+
+![Questa Sim waveform confirming seven segment module.](images/waves3.png)
+*Figure 7: Questa Sim waveform confirming seven segment module.*
 ---
 
 ## Conclusion

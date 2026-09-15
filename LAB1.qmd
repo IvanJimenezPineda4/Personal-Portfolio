@@ -101,6 +101,7 @@ The design successfully accomplished all tasks. To verify the logic prior to pro
 
 ![Questa Sim waveform confirming seven segment module.](images/waves3.png)
 *Figure 7: Questa Sim waveform confirming seven segment module.*
+
 ---
 
 ## Conclusion

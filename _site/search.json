@@ -53,7 +53,7 @@
     "href": "LAB1.html#ai-reflection",
     "title": "Lab 1: FPGA & MCU Setup & Testing",
     "section": "AI Reflection",
-    "text": "AI Reflection\nAI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.\nInitially, ChatGPT was not able to to produce synthasizable code"
+    "text": "AI Reflection\nAI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.\nThe prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failled with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063. When the error was fed back to ChatGPT, it was not able to correct it.\nOverall, I would rate the quality of ChatGPT’s output as a 5/10 because it did correctly calculate that a 48MHz clock required a 12,000,000 count to toggle twice a second for a 2Hz blink rate but it could not correct error messages from the synthesis."
   },
   {
     "objectID": "blog.html",
@@ -68,5 +68,19 @@
     "title": "E155 Portfolio",
     "section": "",
     "text": "Hello! My name is Ivan, and I’m a junior at Harvey Mudd College studying Engineering with a focus on robotics and automation. I enjoy working on projects that involve programming, electronics, and mechanical design. This portfolio showcases some of the work I’ve done in my classes and personal projects!\nLink to Github"
+  },
+  {
+    "objectID": "LAB1.html#results",
+    "href": "LAB1.html#results",
+    "title": "Lab 1: FPGA & MCU Setup & Testing",
+    "section": "Results",
+    "text": "Results\nThe design successfully accomplished all tasks. To verify the logic prior to programming the hardware, testbenches were written for every module and simulated in Questa Sim. The combinational testbench verified all 16 states of the 7-segment display, the sequential testbench confirmed the counter’s active-low reset and enable functions, and the testbench verified the integration of the modules. Figure 5 confirms that the outputs perfectly matched expectations.\n Figure 5: Questa Sim waveform confirming LED and active-low 7-segment logic."
+  },
+  {
+    "objectID": "LAB1.html#conclusion",
+    "href": "LAB1.html#conclusion",
+    "title": "Lab 1: FPGA & MCU Setup & Testing",
+    "section": "Conclusion",
+    "text": "Conclusion\nAll designs were successfully implemented on the FPGA. The simulations matched expectations, and the physical hardware behaved exactly as intended. The lab took a total of 32 hours to complete.\nThrough this lab, hands-on practice was gained in assembling a development board, structuring SystemVerilog code, writing testbenches, and working with many hardware components."
   }
 ]

@@ -39,7 +39,7 @@
     "href": "LAB1.html#results",
     "title": "Lab 1: FPGA & MCU Setup & Testing",
     "section": "Results",
-    "text": "Results\nThe design successfully accomplished all tasks. To verify the logic prior to programming the hardware, testbenches were written for every module and simulated in Questa Sim. The combinational testbench verified all 16 states of the 7-segment display, the sequential testbench confirmed the counter’s active-low reset and enable functions, and the testbench verified the integration of the modules. Figure 5 confirms that the outputs perfectly matched expectations.\n Figure 5: Questa Sim waveform confirming LED and active-low 7-segment logic."
+    "text": "Results\nThe design successfully accomplished all tasks. To verify the logic prior to programming the hardware, testbenches were written for every module and simulated in Questa Sim. The combinational testbench verified all 16 states of the 7-segment display, the sequential testbench confirmed the counter’s active-low reset and enable functions, and the testbench verified the integration of the modules. Figure 5 confirms that the outputs perfectly matched expectations.\n Figure 5: Questa Sim waveform confirming LED and active-low 7-segment logic.\n Figure 6: Questa Sim waveform confirming counter module.\n Figure 7: Questa Sim waveform confirming seven segment module."
   },
   {
     "objectID": "LAB1.html#conclusion",

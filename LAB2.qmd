@@ -18,6 +18,9 @@ The purpose of this lab was to implement a time-multiplexing scheme to efficient
 
 Time-multiplexing allows a common hardware resource to be shared for several purposes at different times. A single seven-segment decoder was used to drive both digits of the display. To control which digit was active, the common anode of each display was toggled sequentially. Because the anode requires more current than the FPGA can directly supply, 2N3906 PNP transistors were utilized to switch the current.
 
+![Complete Dual Seven Segment Display and Keypad Breadboard.](images/AssembledBoard.jpeg)
+*Figure 1: Complete Dual Seven Segment Display and Keypad Breadboard.*
+
 ### Matrix Keypad Scanning
 
 The matrix keypad contains four rows and four columns, connected to 8 total pins. The scanning module asserts signals on each row one at a time and observes the values of the columns. To prevent short circuits when multiple keys in the same column are pressed simultaneously, an open-drain conversion circuit was built using 2N3904 NPN transistors. The FPGA drives the base of the transistor, the emitter is grounded, and the collector connects to the keypad row, allowing the output to float when deasserted. Internal pull-up resistors were configured on the FPGA column input pins to read the logic levels correctly.
@@ -74,7 +77,7 @@ Calculations were performed to ensure current draw and sink on all FPGA pins rem
 
 Testbenches were developed to verify the modules automatically. The seven-segment decoder testbench verified all 16 hexadecimal states. The scanner testbench simulated massive delays to verify the active-low reset, the enable function, and all four state transitions. The top-level testbench exercised the multiplexer toggling and the combinational keypad logic. 
 
-*Figure 4*, *Figure 5*, and *Figure 6* show the Questa Sim waveforms confirming the logic behaves exactly as intended.
+*Figure 4*, *Figure 5*, *Figure 6*, and *Figure 7* show the Questa Sim waveforms confirming the logic behaves exactly as intended.
 
 ![Questa Sim waveform confirming the counter logic.](images/waves_counter.png)
 *Figure 4: Questa Sim waveform confirming the counter logic.*
@@ -86,7 +89,7 @@ Testbenches were developed to verify the modules automatically. The seven-segmen
 *Figure 6: Questa Sim waveform confirming the top-level multiplexing.*
 
 ![Questa Sim waveform confirming the seven_segment display working.](images/waves_seven.png)
-*Figure 6: Questa Sim waveform confirming the seven segment display working.*
+*Figure 7: Questa Sim waveform confirming the seven segment display working.*
 
 ---
 

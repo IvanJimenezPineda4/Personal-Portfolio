@@ -58,7 +58,7 @@ The scanning module utilizes a 25-bit counter. The top two bits were extracted t
 
 *Figure 2* shows the complete schematic detailing the off-board components, including the 4x4 keypad, the dual 7-segment display, the LEDs, and the transistor driver circuits. 
 
-![Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring.](images/schematic_2.png)
+![Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring.](images/schematic_2.jpg)
 *Figure 2: Schematic of off-board components and transistor circuits.*
 
 Calculations were performed to ensure current draw and sink on all FPGA pins remained below the recommended limits. According to the iCE40 UltraPlus data sheet, the maximum output low current and output high current for the LVCMOS 3.3V standard is 8 mA. 

@@ -18,7 +18,7 @@ The purpose of this lab was to implement a time-multiplexing scheme to efficient
 
 Time-multiplexing allows a common hardware resource to be shared for several purposes at different times. A single seven-segment decoder was used to drive both digits of the display. To control which digit was active, the common anode of each display was toggled sequentially. Because the anode requires more current than the FPGA can directly supply, 2N3906 PNP transistors were utilized to switch the current.
 
-![Complete Dual Seven Segment Display and Keypad Breadboard.](images/breadboard.jpg)
+![Complete Dual Seven Segment Display and Keypad Breadboard.](images/breadboard.jpeg)
 *Figure 1: Complete Dual Seven Segment Display and Keypad Breadboard.*
 
 ### Matrix Keypad Scanning

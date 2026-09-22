@@ -18,7 +18,7 @@ The purpose of this lab was to implement a time-multiplexing scheme to efficient
 
 Time-multiplexing allows a common hardware resource to be shared for several purposes at different times. A single seven-segment decoder was used to drive both digits of the display. To control which digit was active, the common anode of each display was toggled sequentially. Because the anode requires more current than the FPGA can directly supply, 2N3906 PNP transistors were utilized to switch the current.
 
-![Complete Dual Seven Segment Display and Keypad Breadboard.](images/breadboard.jpeg)
+![Complete Dual Seven Segment Display and Keypad Breadboard.](images/lab2_circuit.jpg)
 *Figure 1: Complete Dual Seven Segment Display and Keypad Breadboard.*
 
 ### Matrix Keypad Scanning
@@ -48,7 +48,7 @@ The top-level design connects the inputs and outputs to achieve the multiplexing
 
 The design includes a single time-multiplexed seven-segment decoder module, a counter module, a scanning module, and a top-level module. The top-level design only includes instances of these submodules and `assign` statements to route the multiplexing and scanning logic. *Figure 1* below shows the block diagram of the system.
 
-![Block diagram of the top-level module and submodules.](images/block_2.png)
+![Block diagram of the top-level module and submodules.](images/lab2_block.png)
 *Figure 1: Block diagram representing the logic structure.*
 
 ### Counter & State Machines
@@ -79,10 +79,10 @@ Testbenches were developed to verify the modules automatically. The scanner test
 
 *Figure 4* and *Figure 5* show the Questa Sim waveforms confirming the logic behaves exactly as intended.
 
-![Questa Sim waveform confirming the scanner state transitions.](images/waves_scanner.png)
+![Questa Sim waveform confirming the scanner state transitions.](images/scanner_lab2.png)
 *Figure 4: Questa Sim waveform confirming the scanner state transitions.*
 
-![Questa Sim waveform confirming the top-level multiplexing.](images/waves_top.png)
+![Questa Sim waveform confirming the top-level multiplexing.](images/lab2_top.png)
 *Figure 5: Questa Sim waveform confirming the top-level multiplexing.*
 
 ---
@@ -95,11 +95,18 @@ The multiplexed dual display and the matrix keypad scanner were successfully imp
 
 ## AI Reflection
 
-**AI Prompt:** Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits.
+**AI Prompt 1 (Without Context):**
+> Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits.
 
-ChatGPT6 was not able to produce synthesizeable code.
+**AI Prompt 2 (With Lab 1 Context Attached):**
+> Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files.
 
-**AI Prompt:** Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files.
+**Reflection on the AI Prototype:**
 
-With context, ChatGPT6 was able to provide synthesizable code.
+When given the first prompt with no context, ChatGPT-5 generated a generic multiplexer. It created its own seven-segment case statement from scratch and used an arbitrary clk input. It also implemented a sequential flip-flop block to alternate registering the outputs to two completely separate 7-bit buses (`seg0` and `seg1`). 
 
+Adding the Lab 1 files as context in the second prompt improved the hardware accuracy of the response. ChatGPT correctly instantiated the Lattice `HSOSC` to generate the clock, reused my exact `seven_segment` combinational module from Lab 1, and implemented a proper counter to divide the 24 MHz clock down to a 1 kHz switching frequency. 
+
+However, the generated code still contained flaws based on my prompt's phrasing. Because I asked it to drive two sets of seven output bits, the LLM created two 7-bit outputs (`seg0` and `seg1`). In reality, time-multiplexing a dual display involves sharing a single 7-bit segment bus and using transistors to toggle the common anodes one at a time.
+
+I would rate the quality of the output an 8/10. The SystemVerilog syntax was great and it correctly utilized `always_comb` and `always_ff` blocks. The code would synthesize in Lattice Radiant the first time around without syntax errors.

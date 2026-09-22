@@ -74,35 +74,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -210,7 +181,7 @@ window.Quarto = {
 <section id="time-multiplexing-setup" class="level3">
 <h3 class="anchored" data-anchor-id="time-multiplexing-setup">Time-Multiplexing Setup</h3>
 <p>Time-multiplexing allows a common hardware resource to be shared for several purposes at different times. A single seven-segment decoder was used to drive both digits of the display. To control which digit was active, the common anode of each display was toggled sequentially. Because the anode requires more current than the FPGA can directly supply, 2N3906 PNP transistors were utilized to switch the current.</p>
-<p><img src="images/breadboard.jpg" class="img-fluid" alt="Complete Dual Seven Segment Display and Keypad Breadboard."> <em>Figure 1: Complete Dual Seven Segment Display and Keypad Breadboard.</em></p>
+<p><img src="images/lab2_circuit.jpg" class="img-fluid" alt="Complete Dual Seven Segment Display and Keypad Breadboard."> <em>Figure 1: Complete Dual Seven Segment Display and Keypad Breadboard.</em></p>
 </section>
 <section id="matrix-keypad-scanning" class="level3">
 <h3 class="anchored" data-anchor-id="matrix-keypad-scanning">Matrix Keypad Scanning</h3>
@@ -272,7 +243,7 @@ window.Quarto = {
 <section id="documentation" class="level2">
 <h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
 <p>The design includes a single time-multiplexed seven-segment decoder module, a counter module, a scanning module, and a top-level module. The top-level design only includes instances of these submodules and <code>assign</code> statements to route the multiplexing and scanning logic. <em>Figure 1</em> below shows the block diagram of the system.</p>
-<p><img src="images/block_2.png" class="img-fluid" alt="Block diagram of the top-level module and submodules."> <em>Figure 1: Block diagram representing the logic structure.</em></p>
+<p><img src="images/lab2_block.png" class="img-fluid" alt="Block diagram of the top-level module and submodules."> <em>Figure 1: Block diagram representing the logic structure.</em></p>
 <section id="counter-state-machines" class="level3">
 <h3 class="anchored" data-anchor-id="counter-state-machines">Counter &amp; State Machines</h3>
 <p>All counting logic was handled by a single module. This module was instantiated twice in the top level. The first instance (<code>mux_cntr</code>) was parameterized to 17 bits to divide the 24 MHz clock down to a smaller frequency, ensuring the switching is imperceptible to the human eye.</p>
@@ -281,34 +252,35 @@ window.Quarto = {
 <section id="schematic-electrical-calculations" class="level3">
 <h3 class="anchored" data-anchor-id="schematic-electrical-calculations">Schematic &amp; Electrical Calculations</h3>
 <p><em>Figure 2</em> shows the complete schematic detailing the off-board components, including the 4x4 keypad, the dual 7-segment display, the LEDs, and the transistor driver circuits.</p>
-<p><img src="images/schematic_2.jpg" class="img-fluid" alt="Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring."> <em>Figure 2: Schematic of off-board components and transistor circuits.</em></p>
+<p><img src="images/lab2_schematic.jpg" class="img-fluid" alt="Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring."> <em>Figure 2: Schematic of off-board components and transistor circuits.</em></p>
 <p>Calculations were performed to ensure current draw and sink on all FPGA pins remained below the recommended limits. According to the iCE40 UltraPlus data sheet, the maximum output low current and output high current for the LVCMOS 3.3V standard is 8 mA.</p>
-<p><em>Figure 3</em> provides the calculations for the series base resistors used on the NPN and PNP transistors. Accounting for a 3.3V logic high and a typical 0.7V base-emitter forward voltage, 1 k<span class="math inline">\(\Omega\)</span> resistors were selected to limit the FPGA pin current to 2.6 mA, well below the 8 mA threshold.</p>
+<p><em>Figure 3</em> provides the calculations for the series base resistors used on the NPN and PNP transistors. Accounting for a 3.3V logic high and a typical 0.7V base-emitter forward voltage, resistors were selected to limit the FPGA pin current well below the 8 mA threshold.</p>
 <p><img src="images/Calculations_2.jpg" class="img-fluid" alt="Calculations to justify the base resistor values and verify safe FPGA current limits."> <em>Figure 3: Calculations to justify the transistor resistor values.</em></p>
 <hr>
 </section>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>Testbenches were developed to verify the modules automatically. The seven-segment decoder testbench verified all 16 hexadecimal states. The scanner testbench simulated massive delays to verify the active-low reset, the enable function, and all four state transitions. The top-level testbench exercised the multiplexer toggling and the combinational keypad logic.</p>
-<p><em>Figure 4</em>, <em>Figure 5</em>, <em>Figure 6</em>, and <em>Figure 7</em> show the Questa Sim waveforms confirming the logic behaves exactly as intended.</p>
-<p><img src="images/waves_counter.png" class="img-fluid" alt="Questa Sim waveform confirming the counter logic."> <em>Figure 4: Questa Sim waveform confirming the counter logic.</em></p>
-<p><img src="images/waves_scanner.png" class="img-fluid" alt="Questa Sim waveform confirming the scanner state transitions."> <em>Figure 5: Questa Sim waveform confirming the scanner state transitions.</em></p>
-<p><img src="images/waves_top.png" class="img-fluid" alt="Questa Sim waveform confirming the top-level multiplexing."> <em>Figure 6: Questa Sim waveform confirming the top-level multiplexing.</em></p>
-<p><img src="images/waves_seven.png" class="img-fluid" alt="Questa Sim waveform confirming the seven_segment display working."> <em>Figure 7: Questa Sim waveform confirming the seven segment display working.</em></p>
+<p>Testbenches were developed to verify the modules automatically. The scanner testbench simulated massive delays to verify the active-low reset, the enable function, and all four state transitions. The top-level testbench exercised the multiplexer toggling and the combinational keypad logic.</p>
+<p><em>Figure 4</em> and <em>Figure 5</em> show the Questa Sim waveforms confirming the logic behaves exactly as intended.</p>
+<p><img src="images/scanner_lab2.png" class="img-fluid" alt="Questa Sim waveform confirming the scanner state transitions."> <em>Figure 4: Questa Sim waveform confirming the scanner state transitions.</em></p>
+<p><img src="images/lab2_top.png" class="img-fluid" alt="Questa Sim waveform confirming the top-level multiplexing."> <em>Figure 5: Questa Sim waveform confirming the top-level multiplexing.</em></p>
 <hr>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>The multiplexed dual display and the matrix keypad scanner were successfully implemented. The modular Verilog structure behaved seamlessly during simulation, and the physical open-drain and high-side transistor circuits operated the hardware safely. The design meets all specifications outlined for Lab 2. The lab took a total of 19 hours to complete.</p>
+<p>The multiplexed dual display and the matrix keypad scanner were successfully implemented. The Verilog structure behaved as intended and the open-drain and high-side transistor circuits operated the hardware safely. The design meets all specifications outlined for Lab 2. The lab took a total of 23 hours to complete.</p>
 <hr>
 </section>
 <section id="ai-reflection" class="level2">
 <h2 class="anchored" data-anchor-id="ai-reflection">AI Reflection</h2>
-<p><strong>AI Prompt:</strong> Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits.</p>
-<p>ChatGPT6 was not able to produce synthesizeable code.</p>
-<p><strong>AI Prompt:</strong> Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files.</p>
-<p>With context, ChatGPT6 was able to provide synthesizable code.</p>
+<p><strong>AI Prompt 1 (Without Context):</strong> Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits.</p>
+<p><strong>AI Prompt 2 (With Lab 1 Context Attached):</strong> Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files.</p>
+<p><strong>Reflection on the AI Prototype:</strong></p>
+<p>When given the first prompt with no context, ChatGPT-5 generated a generic multiplexer. It created its own seven-segment case statement from scratch and used an arbitrary clk input. It also implemented a sequential flip-flop block to alternate registering the outputs to two completely separate 7-bit buses (<code>seg0</code> and <code>seg1</code>).</p>
+<p>Adding the Lab 1 files as context in the second prompt improved the hardware accuracy of the response. ChatGPT correctly instantiated the Lattice <code>HSOSC</code> to generate the clock, reused my exact <code>seven_segment</code> combinational module from Lab 1, and implemented a proper counter to divide the 24 MHz clock down to a 1 kHz switching frequency.</p>
+<p>However, the generated code still contained flaws based on my prompt’s phrasing. Because I asked it to drive two sets of seven output bits, the LLM created two 7-bit outputs (<code>seg0</code> and <code>seg1</code>). In reality, time-multiplexing a dual display involves sharing a single 7-bit segment bus and using transistors to toggle the common anodes one at a time.</p>
+<p>I would rate the quality of the output an 8/10. The SystemVerilog syntax was great and it correctly utilized <code>always_comb</code> and <code>always_ff</code> blocks. The code would synthesize in Lattice Radiant the first time around without syntax errors.</p>
 
 
 </section>

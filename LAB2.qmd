@@ -61,12 +61,12 @@ The scanning module utilizes a 25-bit counter. The top two bits were extracted t
 
 *Figure 2* shows the complete schematic detailing the off-board components, including the 4x4 keypad, the dual 7-segment display, the LEDs, and the transistor driver circuits. 
 
-![Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring.](images/schematic_2.jpg)
+![Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring.](images/lab2_schematic.jpg)
 *Figure 2: Schematic of off-board components and transistor circuits.*
 
 Calculations were performed to ensure current draw and sink on all FPGA pins remained below the recommended limits. According to the iCE40 UltraPlus data sheet, the maximum output low current and output high current for the LVCMOS 3.3V standard is 8 mA. 
 
-*Figure 3* provides the calculations for the series base resistors used on the NPN and PNP transistors. Accounting for a 3.3V logic high and a typical 0.7V base-emitter forward voltage, 1 k$\Omega$ resistors were selected to limit the FPGA pin current to 2.6 mA, well below the 8 mA threshold.
+*Figure 3* provides the calculations for the series base resistors used on the NPN and PNP transistors. Accounting for a 3.3V logic high and a typical 0.7V base-emitter forward voltage, resistors were selected to limit the FPGA pin current well below the 8 mA threshold.
 
 ![Calculations to justify the base resistor values and verify safe FPGA current limits.](images/Calculations_2.jpg)
 *Figure 3: Calculations to justify the transistor resistor values.*
@@ -75,27 +75,21 @@ Calculations were performed to ensure current draw and sink on all FPGA pins rem
 
 ## Results
 
-Testbenches were developed to verify the modules automatically. The seven-segment decoder testbench verified all 16 hexadecimal states. The scanner testbench simulated massive delays to verify the active-low reset, the enable function, and all four state transitions. The top-level testbench exercised the multiplexer toggling and the combinational keypad logic. 
+Testbenches were developed to verify the modules automatically. The scanner testbench simulated massive delays to verify the active-low reset, the enable function, and all four state transitions. The top-level testbench exercised the multiplexer toggling and the combinational keypad logic. 
 
-*Figure 4*, *Figure 5*, *Figure 6*, and *Figure 7* show the Questa Sim waveforms confirming the logic behaves exactly as intended.
-
-![Questa Sim waveform confirming the counter logic.](images/waves_counter.png)
-*Figure 4: Questa Sim waveform confirming the counter logic.*
+*Figure 4* and *Figure 5* show the Questa Sim waveforms confirming the logic behaves exactly as intended.
 
 ![Questa Sim waveform confirming the scanner state transitions.](images/waves_scanner.png)
-*Figure 5: Questa Sim waveform confirming the scanner state transitions.*
+*Figure 4: Questa Sim waveform confirming the scanner state transitions.*
 
 ![Questa Sim waveform confirming the top-level multiplexing.](images/waves_top.png)
-*Figure 6: Questa Sim waveform confirming the top-level multiplexing.*
-
-![Questa Sim waveform confirming the seven_segment display working.](images/waves_seven.png)
-*Figure 7: Questa Sim waveform confirming the seven segment display working.*
+*Figure 5: Questa Sim waveform confirming the top-level multiplexing.*
 
 ---
 
 ## Conclusion
 
-The multiplexed dual display and the matrix keypad scanner were successfully implemented. The modular Verilog structure behaved seamlessly during simulation, and the physical open-drain and high-side transistor circuits operated the hardware safely. The design meets all specifications outlined for Lab 2. The lab took a total of 19 hours to complete. 
+The multiplexed dual display and the matrix keypad scanner were successfully implemented. The Verilog structure behaved as intended and the open-drain and high-side transistor circuits operated the hardware safely. The design meets all specifications outlined for Lab 2. The lab took a total of 23 hours to complete. 
 
 ---
 

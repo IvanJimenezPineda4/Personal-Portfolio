@@ -8,6 +8,9 @@ format: html
 
 This lab focuses on designing a circuit interface to read a 4x4 matrix keypad and display the results on a dual seven-segment display. The design must display the last two hexadecimal digits pressed, with the most recent entry appearing on the right. Because mechanical switches are prone to bouncing making and breaking connections rapidly over a few milliseconds, the system must implement a debouncing strategy to ensure each key press is registered exactly once. Furthermore, the system must handle multi-press edge cases, ignoring additional inputs if a button is already held down and refusing to lock up if multiple buttons are pressed simultaneously. The design was written in SystemVerilog, verified using Questa Sim, and synthesized for the UPduino v3.1 FPGA.
 
+![Keypad Scanner Circuit](images/keypad_scanner_lab3.jpg)
+*Figure 1: Keypad Scanner Circuit wired with a working multiplexed dual seven segment display
+
 [View th Source Code on GitHub](https://github.com/IvanJimenezPineda4/E155-Lab-3)
 
 ---
@@ -36,15 +39,15 @@ The lab is split into six modules to maintain clean Verilog structure and reuse 
 ### Block Diagram & Schematic
 
 ![Schematic showing all components used.](images/Schematic_lab3.jpg)
-*Figure 1: Complete schematic showing all off-board components, wiring junctions, and standard component symbols.*
+*Figure 2: Complete schematic showing all off-board components, wiring junctions, and standard component symbols.*
 
 ![Block Diagram of the top-level module and submodules.](images/lab3_blockdiagram.jpg)
-*Figure 2: Block diagram representing the Verilog code structure, including all submodules.*
+*Figure 3: Block diagram representing the Verilog code structure, including all submodules.*
 
 ### State Transition Diagram & Table
 
 ![State transition diagram including rowscanning debouncing, and waiting.](images/state_transition_lab3.jpg)
-*Figure 3: State transition diagram illustrating the row scanning, debouncing, and wait states.*
+*Figure 4: State transition diagram illustrating the row scanning, debouncing, and wait states.*
 
 *Table 1: Complete State Transition Table documenting the next state and output values.*
 
@@ -88,22 +91,33 @@ Automatic testbenches were created to verify all modules before hardware deploym
 The top-level testbench simulated asynchronous switch bounce logic to mimic human input. The waveform results confirmed that the design successfully filters the noise and registers exactly one shift-register update per stable press.
 
 ![FSM testbench waveforms.](images/fsm_lab3_waves.png)
-*Figure 4: FSM Testbench waveform confirming the scan, debounce, and wait state transitions.*
+*Figure 5: FSM Testbench waveform confirming the scan, debounce, and wait state transitions.*
 
 ![Top Module testbench waveforms.](images/lab3_ivan_waves.png)
-*Figure 5: Top level waveform confirming that simulated switch bounce is safely ignored and the shift register updates cleanly.*
+*Figure 6: Top level waveform confirming that simulated switch bounce is safely ignored and the shift register updates cleanly.*
 
 ![Keypad Decoder testbench waveforms.](images/lab3_decoder_waves.png)
-*Figure 6: Keypad Decoder waveforms confirming that simulated keys are mapped correctly.
+*Figure 7: Keypad Decoder waveforms confirming that simulated keys are mapped correctly.
 
 ![Synchronizer testbench waveforms.](images/lab3_synchronizer_waves.png)
-*Figure 7: Synchronizer testbench waveforms confirming that simulated synchronizer correctly drives asynchronous inputs on clock edge.
+*Figure 8: Synchronizer testbench waveforms confirming that simulated synchronizer correctly drives asynchronous inputs on clock edge.
 
 ---
 
 ## AI Reflection
 
+## AI Prototype Reflection: Monolithic vs. Modular Prompting
 
+The purpose of this AI prototype was to explore how Large Language Models handle design modularity when generating SystemVerilog for digital logic, specifically comparing a monolithic, all-at-once prompt against decomposed prompts. 
+
+### Monolithic vs. Modular Prompt Performance
+When given the monolithic prompt (Prototype A), ChatGPT5 successfully decomposed the design into four distinct modules without explicit instruction. A clock divider, a keypad scanner, a seven-segment multiplexer, and a top-level integration module. However, its initial implementation of the finite state machine inside the keypad scanner was faulty. It used a single enumerated state variable (`S_SCAN0` through `S_SCAN3` and `S_HELD`) to handle both the column iteration and the debounce wait state. 
+
+By contrast, decomposing the prompts (Prototype B) forced the LLM to separate the physical row and column scanning from the debouncing logic. This modular approach produced a much cleaner architecture where the scanner simply outputted a continuous stream of pressed keys, and a dedicated `key_registration` module filtered those into a single `new_key` pulse. Modularizing the prompts significantly improved the readability of the FSMs by enforcing strict separation.
+
+During synthesis in Lattice Radiant, I encountered two specific errors. The first was an `unknown module SB_HFOSC` error. When I fed this back to the LLM, it correctly identified that `SB_HFOSC` is a Lattice-specific primitive that might fail and it advised me to remove the direct instantiation and pass the clock in as a top-level port instead. The second issue was a `VERI-1063` error stating that `keypad_scanner` was an unknown module inside `clock_enable.sv`. The LLM identified this issue as a file structure issue, pointing out that I had likely pasted all the generated modules into a single file named `clock_enable.sv`, meaning the synthesis tool couldn't find the `keypad_scanner` definition when compiling other files. Once I separated the code into proper `.sv` files as the LLM suggested, the design synthesized successfully.
+
+In future workflows, I will use the decomposed prompting strategy from the start. Asking an LLM to generate an entire system at once often results in merged logic and tightly coupled FSMs. Breaking the design down into specific modules yields hardware that is much easier to read, test, and debug.
 
 **Time Spent:**
 The lab took a total of 28 hours to complete.

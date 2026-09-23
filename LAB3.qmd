@@ -21,7 +21,7 @@ This lab focuses on designing a circuit interface to read a 4x4 matrix keypad an
 To manage both the fast 24MHz system clock and the slower human scale input requirements, a fully synchronous architecture was installed using clock enables. A 17-bit `counter` module divides the 24MHz clock to generate a single-cycle `tick` approximately every 183Hz. This `tick` signal acts as an enable for the finite state machine and the multiplexer toggle, ensuring all sequential logic is evaluated safely on the primary 24MHz clock edge. 
 
 ### Debouncing Strategy & Tradeoffs
-Switch bouncing was handled through the FSM's state transition timing. Because the FSM only evaluates state changes when the 183Hz `tick` is high, each state transition takes approximately 5.4 milliseconds. When a press is detected, the FSM must traverse from a scan state (`rX`), to a press detect state (`pX`), to a sync state (`sX`), and finally to an enable state (`eX`). This enforces an obligatory 16ms delay between initial contact and input registration, outlasting typical mechanical switch bounce. 
+Switch bouncing was handled through the FSM's state transition timing. Because the FSM only evaluates state changes when the `tick` is high. When a press is detected, the FSM must traverse from a scan state (`rX`), to a press detect state (`pX`), to a sync state (`sX`), and finally to an enable state (`eX`). Therefore, by making `tick` an arbitrary value through experimentation, this creates a delay between initial contact and input registration, outlasting typical mechanical switch bounce. 
 
 *   **Tradeoffs:** This FSM-based sampling method is highly resource-efficient and inherently synchronous. It eliminates the need for internal counter registers inside the FSM module. The primary tradeoff is a slight latency between the physical press and visual output. An alternative method running the FSM at 24MHz and using a large internal counter (counting to 500,000) would provide finer control over the exact debounce delay, but clutters the FSM logic with timers. Relying on a system-wide tick keeps the FSM strictly focused on state routing.
 
@@ -41,7 +41,7 @@ The lab is split into six modules to maintain clean Verilog structure and reuse 
 ![Schematic showing all components used.](images/Schematic_lab3.jpg)
 *Figure 2: Complete schematic showing all off-board components, wiring junctions, and standard component symbols.*
 
-![Block Diagram of the top-level module and submodules.](images/lab3_blockdiagram.jpg)
+![Block Diagram of the top-level module and submodules.](images/lab3_block_diagram_ivan.jpg)
 *Figure 3: Block diagram representing the Verilog code structure, including all submodules.*
 
 ### State Transition Diagram & Table

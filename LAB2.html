@@ -252,7 +252,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="schematic-electrical-calculations" class="level3">
 <h3 class="anchored" data-anchor-id="schematic-electrical-calculations">Schematic &amp; Electrical Calculations</h3>
 <p><em>Figure 2</em> shows the complete schematic detailing the off-board components, including the 4x4 keypad, the dual 7-segment display, the LEDs, and the transistor driver circuits.</p>
-<p><img src="images/lab2_schematic.jpg" class="img-fluid" alt="Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring."> <em>Figure 2: Schematic of off-board components and transistor circuits.</em></p>
+<p><img src="images/schematic_lab2.jpg" class="img-fluid" alt="Schematic showing the open-drain NPN rows, PNP anodes, and LED wiring."> <em>Figure 2: Schematic of off-board components and transistor circuits.</em></p>
 <p>Calculations were performed to ensure current draw and sink on all FPGA pins remained below the recommended limits. According to the iCE40 UltraPlus data sheet, the maximum output low current and output high current for the LVCMOS 3.3V standard is 8 mA.</p>
 <p><em>Figure 3</em> provides the calculations for the series base resistors used on the NPN and PNP transistors. Accounting for a 3.3V logic high and a typical 0.7V base-emitter forward voltage, resistors were selected to limit the FPGA pin current well below the 8 mA threshold.</p>
 <p><img src="images/Calculations_2.jpg" class="img-fluid" alt="Calculations to justify the base resistor values and verify safe FPGA current limits."> <em>Figure 3: Calculations to justify the transistor resistor values.</em></p>
@@ -263,7 +263,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <p>Testbenches were developed to verify the modules automatically. The scanner testbench simulated massive delays to verify the active-low reset, the enable function, and all four state transitions. The top-level testbench exercised the multiplexer toggling and the combinational keypad logic.</p>
 <p><em>Figure 4</em> and <em>Figure 5</em> show the Questa Sim waveforms confirming the logic behaves exactly as intended.</p>
-<p><img src="images/scanner_lab2.png" class="img-fluid" alt="Questa Sim waveform confirming the scanner state transitions."> <em>Figure 4: Questa Sim waveform confirming the scanner state transitions.</em></p>
+<p><img src="images/scanner_test_lab2.png" class="img-fluid" alt="Questa Sim waveform confirming the scanner state transitions."> <em>Figure 4: Questa Sim waveform confirming the scanner state transitions.</em></p>
 <p><img src="images/lab2_top.png" class="img-fluid" alt="Questa Sim waveform confirming the top-level multiplexing."> <em>Figure 5: Questa Sim waveform confirming the top-level multiplexing.</em></p>
 <hr>
 </section>

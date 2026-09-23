@@ -153,6 +153,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Lab 3: Keypad Scanner</h1>
+<p class="subtitle lead">Ivan Jimenez Pineda | ijimenezpineda@g.hmc.edu | September 23, 2026</p>
 </div>
 
 
@@ -169,8 +170,333 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This lab focuses on designing a circuit interface to read a 4x4 matrix keypad and display the results on a dual seven-segment display. The design must display the last two hexadecimal digits pressed, with the most recent entry appearing on the right. Because mechanical switches are prone to bouncing making and breaking connections rapidly over a few milliseconds, the system must implement a debouncing strategy to ensure each key press is registered exactly once. Furthermore, the system must handle multi-press edge cases, ignoring additional inputs if a button is already held down and refusing to lock up if multiple buttons are pressed simultaneously. The design was written in SystemVerilog, verified using Questa Sim, and synthesized for the UPduino v3.1 FPGA.</p>
+<p><img src="images/keypad_scanner_lab3.jpg" class="img-fluid" alt="Keypad Scanner Circuit"> *Figure 1: Keypad Scanner Circuit wired with a working multiplexed dual seven segment display</p>
+<p><a href="https://github.com/IvanJimenezPineda4/E155-Lab-3">View th Source Code on GitHub</a></p>
+<hr>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="fully-synchronous-architecture-clocking" class="level3">
+<h3 class="anchored" data-anchor-id="fully-synchronous-architecture-clocking">Fully Synchronous Architecture &amp; Clocking</h3>
+<p>To manage both the fast 24MHz system clock and the slower human scale input requirements, a fully synchronous architecture was installed using clock enables. A 17-bit <code>counter</code> module divides the 24MHz clock to generate a single-cycle <code>tick</code> approximately every 183Hz. This <code>tick</code> signal acts as an enable for the finite state machine and the multiplexer toggle, ensuring all sequential logic is evaluated safely on the primary 24MHz clock edge.</p>
+</section>
+<section id="debouncing-strategy-tradeoffs" class="level3">
+<h3 class="anchored" data-anchor-id="debouncing-strategy-tradeoffs">Debouncing Strategy &amp; Tradeoffs</h3>
+<p>Switch bouncing was handled through the FSM’s state transition timing. Because the FSM only evaluates state changes when the 183Hz <code>tick</code> is high, each state transition takes approximately 5.4 milliseconds. When a press is detected, the FSM must traverse from a scan state (<code>rX</code>), to a press detect state (<code>pX</code>), to a sync state (<code>sX</code>), and finally to an enable state (<code>eX</code>). This enforces an obligatory 16ms delay between initial contact and input registration, outlasting typical mechanical switch bounce.</p>
+<ul>
+<li><strong>Tradeoffs:</strong> This FSM-based sampling method is highly resource-efficient and inherently synchronous. It eliminates the need for internal counter registers inside the FSM module. The primary tradeoff is a slight latency between the physical press and visual output. An alternative method running the FSM at 24MHz and using a large internal counter (counting to 500,000) would provide finer control over the exact debounce delay, but clutters the FSM logic with timers. Relying on a system-wide tick keeps the FSM strictly focused on state routing.</li>
+</ul>
+</section>
+<section id="multi-press-and-metastability-handling" class="level3">
+<h3 class="anchored" data-anchor-id="multi-press-and-metastability-handling">Multi-Press and Metastability Handling</h3>
+<p>To resolve metastability when reading asynchronous human inputs, a 2-flop <code>synchronizer</code> module aligns the column inputs to the 24MHz clock before they reach the FSM. To prevent the system from locking up or misfiring when multiple buttons are pressed, the FSM utilizes decoder logic (<code>press = 1</code> ONLY if exactly one column is active). If multiple buttons are mashed, the FSM ignores the input and continues scanning. Once a valid press is registered, the FSM locks the active column into a <code>first_col</code> register and enters a wait state (<code>wX</code>). It remains trapped in this wait state as long as the original button is held, preventing auto-repeating digits. If multiple buttons are held down and all but one are released, the FSM will cycle back to the scan states, recognize the newly isolated button, and register it properly as a new single key press.</p>
+<hr>
+</section>
+</section>
+<section id="documentation" class="level2">
+<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
+<p>The lab is split into six modules to maintain clean Verilog structure and reuse previous designs. The top-level module (<code>lab3_ivan</code>) consists only of instantiated submodules and trivial routing logic. The <code>counter</code>, <code>synchronizer</code>, and <code>seven_segment</code> modules were isolated to handle their respective functions.</p>
+<ul>
+<li><strong>FSM Tradeoffs:</strong> By keeping the combinational hex decoding in a separate <code>keypad_decoder</code> module, the FSM only needs to manage active row scanning and enabling. If the decoder logic were embedded inside the FSM, the next-state logic block would become unnecessarily bloated. Splitting them allows the FSM to output a simple <code>active_row</code> signal that the combinational decoder cross-references with the synchronized columns to yield the hex value.</li>
+</ul>
+<section id="block-diagram-schematic" class="level3">
+<h3 class="anchored" data-anchor-id="block-diagram-schematic">Block Diagram &amp; Schematic</h3>
+<p><img src="images/Schematic_lab3.jpg" class="img-fluid" alt="Schematic showing all components used."> <em>Figure 2: Complete schematic showing all off-board components, wiring junctions, and standard component symbols.</em></p>
+<p><img src="images/lab3_blockdiagram.jpg" class="img-fluid" alt="Block Diagram of the top-level module and submodules."> <em>Figure 3: Block diagram representing the Verilog code structure, including all submodules.</em></p>
+</section>
+<section id="state-transition-diagram-table" class="level3">
+<h3 class="anchored" data-anchor-id="state-transition-diagram-table">State Transition Diagram &amp; Table</h3>
+<p><img src="images/state_transition_lab3.jpg" class="img-fluid" alt="State transition diagram including rowscanning debouncing, and waiting."> <em>Figure 4: State transition diagram illustrating the row scanning, debouncing, and wait states.</em></p>
+<p><em>Table 1: Complete State Transition Table documenting the next state and output values.</em></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Current State</th>
+<th style="text-align: left;">Input Conditions</th>
+<th style="text-align: left;">Next State</th>
+<th style="text-align: left;"><code>row</code> (Active-Low)</th>
+<th style="text-align: left;"><code>active_row</code> (Decoder)</th>
+<th style="text-align: left;"><code>enable</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>r0</strong></td>
+<td style="text-align: left;"><code>press</code> == 1</td>
+<td style="text-align: left;"><strong>p0</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>r0</strong></td>
+<td style="text-align: left;"><code>press</code> == 0</td>
+<td style="text-align: left;"><strong>r1</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>p0</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>s0</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>s0</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>e0</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>e0</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>w0</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>w0</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 1</td>
+<td style="text-align: left;"><strong>w0</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>w0</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 0</td>
+<td style="text-align: left;"><strong>r0</strong></td>
+<td style="text-align: left;">1110</td>
+<td style="text-align: left;">0001</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>r1</strong></td>
+<td style="text-align: left;"><code>press</code> == 1</td>
+<td style="text-align: left;"><strong>p1</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>r1</strong></td>
+<td style="text-align: left;"><code>press</code> == 0</td>
+<td style="text-align: left;"><strong>r2</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>p1</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>s1</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>s1</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>e1</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>e1</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>w1</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>w1</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 1</td>
+<td style="text-align: left;"><strong>w1</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>w1</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 0</td>
+<td style="text-align: left;"><strong>r1</strong></td>
+<td style="text-align: left;">1101</td>
+<td style="text-align: left;">0010</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>r2</strong></td>
+<td style="text-align: left;"><code>press</code> == 1</td>
+<td style="text-align: left;"><strong>p2</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>r2</strong></td>
+<td style="text-align: left;"><code>press</code> == 0</td>
+<td style="text-align: left;"><strong>r3</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>p2</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>s2</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>s2</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>e2</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>e2</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>w2</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>w2</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 1</td>
+<td style="text-align: left;"><strong>w2</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>w2</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 0</td>
+<td style="text-align: left;"><strong>r2</strong></td>
+<td style="text-align: left;">1011</td>
+<td style="text-align: left;">0100</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>r3</strong></td>
+<td style="text-align: left;"><code>press</code> == 1</td>
+<td style="text-align: left;"><strong>p3</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>r3</strong></td>
+<td style="text-align: left;"><code>press</code> == 0</td>
+<td style="text-align: left;"><strong>r0</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>p3</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>s3</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>s3</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>e3</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>e3</strong></td>
+<td style="text-align: left;">(Always on tick)</td>
+<td style="text-align: left;"><strong>w3</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>w3</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 1</td>
+<td style="text-align: left;"><strong>w3</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>w3</strong></td>
+<td style="text-align: left;"><code>oneCol</code> == 0</td>
+<td style="text-align: left;"><strong>r3</strong></td>
+<td style="text-align: left;">0111</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Automatic testbenches were created to verify all modules before hardware deployment. The <code>keypad_decoder</code> testbench exercised all combinational mappings. The <code>synchronizer</code> testbench verified setup and hold isolation by placing inputs both directly on the clock edge and at asynchronous intervals.</p>
+<p>The top-level testbench simulated asynchronous switch bounce logic to mimic human input. The waveform results confirmed that the design successfully filters the noise and registers exactly one shift-register update per stable press.</p>
+<p><img src="images/fsm_lab3_waves.png" class="img-fluid" alt="FSM testbench waveforms."> <em>Figure 5: FSM Testbench waveform confirming the scan, debounce, and wait state transitions.</em></p>
+<p><img src="images/lab3_ivan_waves.png" class="img-fluid" alt="Top Module testbench waveforms."> <em>Figure 6: Top level waveform confirming that simulated switch bounce is safely ignored and the shift register updates cleanly.</em></p>
+<p><img src="images/lab3_decoder_waves.png" class="img-fluid" alt="Keypad Decoder testbench waveforms."> *Figure 7: Keypad Decoder waveforms confirming that simulated keys are mapped correctly.</p>
+<p><img src="images/lab3_synchronizer_waves.png" class="img-fluid" alt="Synchronizer testbench waveforms."> *Figure 8: Synchronizer testbench waveforms confirming that simulated synchronizer correctly drives asynchronous inputs on clock edge.</p>
+<section id="synthesizer-rtl-verification" class="level3">
+<h3 class="anchored" data-anchor-id="synthesizer-rtl-verification">Synthesizer RTL Verification</h3>
+<p><img src="blockdiagram_lab3.png" class="img-fluid" alt="Lattice Radiant RTL Netlist Analyzer output confirming a fully synchronous design."> <em>Figure 9: RTL Block Diagram generated by the synthesizer.</em></p>
+<p>A visual inspection of the synthesizer’s RTL Netlist Analyzer output (Figure 9) confirms that the design contains zero latches and zero tristate buffers. All state-holding elements, such as the <code>digit_new</code> and <code>digit_old</code> registers, are synthesized as standard D flip-flops activated by the edge-triggered clock symbols on their input pins.</p>
+</section>
+<section id="statement-of-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="statement-of-requirements">Statement of Requirements</h3>
+<p>The design successfully meets all Proficiency and Excellence requirements outlined in the Lab 3 specifications. It correctly reads a 4x4 matrix keypad, features a robust FSM-based debouncing strategy that ignores multi-press overlaps, and drives a multiplexed dual seven-segment display fully synchronously without utilizing derived clocks or internal FSM counters.</p>
+<p><strong>Design Verification:</strong> * The circuit correctly reads inputs from the 4x4 keypad one digit at a time. * The dual seven-segment display successfully shows the last two hexadecimal digits pressed, shifting properly from right to left. * Each button press is registered exactly once. * The system operates fully synchronously using clock enables rather than nested or divided FSM clocks. * The design locks out secondary presses, resumes properly when dropping from a multi-press to a single press, and never locks up or displays an intermediate digit when mashed. * Synthesizer output files confirm the design contains zero latches and zero tristate buffers.</p>
+<hr>
+</section>
+</section>
+<section id="ai-reflection" class="level2">
+<h2 class="anchored" data-anchor-id="ai-reflection">AI Reflection</h2>
+</section>
+<section id="ai-prototype-reflection-monolithic-vs.-modular-prompting" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype-reflection-monolithic-vs.-modular-prompting">AI Prototype Reflection: Monolithic vs.&nbsp;Modular Prompting</h2>
+<p>The purpose of this AI prototype was to explore how Large Language Models handle design modularity when generating SystemVerilog for digital logic, specifically comparing a monolithic, all-at-once prompt against decomposed prompts.</p>
+<section id="monolithic-vs.-modular-prompt-performance" class="level3">
+<h3 class="anchored" data-anchor-id="monolithic-vs.-modular-prompt-performance">Monolithic vs.&nbsp;Modular Prompt Performance</h3>
+<p>When given the monolithic prompt (Prototype A), ChatGPT5 successfully decomposed the design into four distinct modules without explicit instruction. A clock divider, a keypad scanner, a seven-segment multiplexer, and a top-level integration module. However, its initial implementation of the finite state machine inside the keypad scanner was faulty. It used a single enumerated state variable (<code>S_SCAN0</code> through <code>S_SCAN3</code> and <code>S_HELD</code>) to handle both the column iteration and the debounce wait state.</p>
+<p>By contrast, decomposing the prompts (Prototype B) forced the LLM to separate the physical row and column scanning from the debouncing logic. This modular approach produced a much cleaner architecture where the scanner simply outputted a continuous stream of pressed keys, and a dedicated <code>key_registration</code> module filtered those into a single <code>new_key</code> pulse. Modularizing the prompts significantly improved the readability of the FSMs by enforcing strict separation.</p>
+<p>During synthesis in Lattice Radiant, I encountered two specific errors. The first was an <code>unknown module SB_HFOSC</code> error. When I fed this back to the LLM, it correctly identified that <code>SB_HFOSC</code> is a Lattice-specific primitive that might fail and it advised me to remove the direct instantiation and pass the clock in as a top-level port instead. The second issue was a <code>VERI-1063</code> error stating that <code>keypad_scanner</code> was an unknown module inside <code>clock_enable.sv</code>. The LLM identified this issue as a file structure issue, pointing out that I had likely pasted all the generated modules into a single file named <code>clock_enable.sv</code>, meaning the synthesis tool couldn’t find the <code>keypad_scanner</code> definition when compiling other files. Once I separated the code into proper <code>.sv</code> files as the LLM suggested, the design synthesized successfully.</p>
+<p>In future workflows, I will use the decomposed prompting strategy from the start. Asking an LLM to generate an entire system at once often results in merged logic and tightly coupled FSMs. Breaking the design down into specific modules yields hardware that is much easier to read, test, and debug.</p>
+<p><strong>Time Spent:</strong> The lab took a total of 28 hours to complete.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

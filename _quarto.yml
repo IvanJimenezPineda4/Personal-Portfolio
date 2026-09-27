@@ -2,7 +2,8 @@ project:
   type: website
 
 website:
-  title: "E155 Portfolio"
+  title: "Ivan Jimenez Pineda Portfolio"
+  site-url: "https://ivanjimenezpineda4.github.io" # Add this line
   navbar:
     left:
       - href: index.qmd
@@ -26,7 +27,6 @@ website:
       - href: Resources.qmd
         text: Resources
 
-
 format:
   html:
     theme:
@@ -34,6 +34,3 @@ format:
       - brand
     css: styles.css
     toc: true
-
-
-

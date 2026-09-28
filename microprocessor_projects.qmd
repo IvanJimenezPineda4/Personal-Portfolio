@@ -35,3 +35,27 @@ This lab focuses on designing a circuit interface to read a 4x4 matrix keypad an
 ![Keypad Scanner Circuit](images/keypad_scanner_lab3.jpg)
 
 ---
+
+### Lab 4: Digital Audio
+
+[Learn More About Lab 4](LAB4.qmd){.btn .btn-outline-primary target="_blank"}
+
+---
+
+### Lab 5: Interrupts
+
+[Learn More About Lab 5](LAB5.qmd){.btn .btn-outline-primary target="_blank"}
+
+---
+
+### Lab 6: The Internet of Things and Serial Peripheral Interface
+
+[Learn More About Lab 6](LAB6.qmd){.btn .btn-outline-primary target="_blank"}
+
+---
+
+### Lab 7: The Advanced Encryption Standard
+
+[Learn More About Lab 7](LAB7.qmd){.btn .btn-outline-primary target="_blank"}
+
+---

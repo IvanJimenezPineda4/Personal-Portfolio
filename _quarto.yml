@@ -19,6 +19,8 @@ website:
         text: Blog
       - href: Resources.qmd
         text: Resources
+      - href: get_to_know_me.qmd
+        text: Get to Know Me!
 
 format:
   html:

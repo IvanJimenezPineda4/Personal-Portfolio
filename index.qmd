@@ -12,7 +12,7 @@ about:
       href: https://github.com/IvanJimenezPineda4
 ---
 
-Hello! My name is Ivan, and I'm an Engineering student at Harvey Mudd College with a strong focus on electro-mechanical systems. I enjoy building and testing hardware, with hands-on experience ranging from designing analog signal processing circuitry for an autonomous underwater vehicle to machining custom mounting fixtures for the characterization of controlled reception pattern antennas for the FAA and The Aerospace Corporation.
+Hello! My name is Ivan, and I'm an Engineering student at Harvey Mudd College with a strong focus on electro-mechanical systems and manufacturing engineering. I enjoy building and testing hardware, with hands-on experience ranging from designing analog signal processing circuitry for an autonomous underwater vehicle to machining custom mounting fixtures for the characterization of controlled reception pattern antennas for the FAA and The Aerospace Corporation.
 
 Outside of my coursework, I am one of the co-presidents of SALSA Mudd (Society for the Advancement of Latinx Students At Mudd) where I help lead events and efforts for uplifting and representing the Latinx community at Harvey Mudd. I also work as a Machine Shop Proctor at the Harvey Mudd Machine Shop, where I train students on manual mills, lathes, and CNC routers. Every semester I get the opportunity to train new shop users in machining their very own hammer! I also recently completed a Mechanical Engineering internship at ALLFAST Fastening Systems, where I created SolidWorks tooling layouts to support a massive production backlog. I am passionate about hands-on engineering, continuous iteration, and having fun all along the way!
 

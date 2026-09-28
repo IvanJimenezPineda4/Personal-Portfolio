@@ -1,0 +1,34 @@
+---
+title: "Microprocessor Labs"
+---
+
+In E155: Microprocessor Systems, I designed and built digital electronic systems using FPGAs, microcontrollers, and other hardware components to perform specific tasks. Through hands-on labs and continuous iteration, I developed skills in embedded programming, FPGA development, and systematic debugging. 
+
+---
+
+### Lab 1: FPGA & MCU Setup & Testing
+
+**Overview:**
+The purpose of this lab was to assemble a development board with an FPGA and MCU on-board. Then, digital designs were implemented using SystemVerilog to verify the hardware functionality. The board utilizes the onboard high-speed oscillator to drive a 2.4 Hz LED blink, map discrete logic to additional LEDs based on DIP switch inputs, and decode a 4-bit binary input to display hexadecimal characters `0` through `F` on a 7-segment display. 
+
+[Learn More About Lab 1](LAB1.qmd){.btn .btn-light}
+
+---
+
+### Lab 2: Multiplexed 7-Segment Display
+
+**Overview:**
+The purpose of this lab was to implement a time-multiplexing scheme to efficiently use the FPGA's I/O pins. The design drives two independent hexadecimal numbers on a dual seven-segment display using only a single seven-segment decoder module. Additionally, a scanning circuit was developed to interact with a 4x4 matrix keypad by driving its rows and reading its columns. The system was designed using SystemVerilog and verified using Questa Sim before physical implementation on the UPduino v3.1 development board.
+
+[Learn More About Lab 2](LAB2.qmd){.btn .btn-light}
+
+---
+
+### Lab 3: Keypad Scanner
+
+**Overview:**
+This lab focuses on designing a circuit interface to read a 4x4 matrix keypad and display the results on a dual seven-segment display. The design must display the last two hexadecimal digits pressed, with the most recent entry appearing on the right. Because mechanical switches are prone to bouncing making and breaking connections rapidly over a few milliseconds, the system must implement a debouncing strategy to ensure each key press is registered exactly once. Furthermore, the system must handle multi-press edge cases, ignoring additional inputs if a button is already held down and refusing to lock up if multiple buttons are pressed simultaneously. The design was written in SystemVerilog, verified using Questa Sim, and synthesized for the UPduino v3.1 FPGA.
+
+[Learn More About Lab 3](LAB3.qmd){.btn .btn-light}
+
+---

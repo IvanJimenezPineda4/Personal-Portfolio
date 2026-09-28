@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ivan’s Blog – Ivan Jimenez Pineda Portfolio</title>
+<title>Microprocessor Labs – Ivan Jimenez Pineda Portfolio</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -75,65 +73,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -168,11 +108,11 @@ window.Quarto = {
 <span class="menu-text">Engineering Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./microprocessor_projects.html"> 
+    <a class="nav-link active" href="./microprocessor_projects.html" aria-current="page"> 
 <span class="menu-text">Microprocessor Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+    <a class="nav-link" href="./blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
@@ -190,15 +130,27 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lab-1-fpga-mcu-setup-testing" id="toc-lab-1-fpga-mcu-setup-testing" class="nav-link active" data-scroll-target="#lab-1-fpga-mcu-setup-testing">Lab 1: FPGA &amp; MCU Setup &amp; Testing</a></li>
+  <li><a href="#lab-2-multiplexed-7-segment-display" id="toc-lab-2-multiplexed-7-segment-display" class="nav-link" data-scroll-target="#lab-2-multiplexed-7-segment-display">Lab 2: Multiplexed 7-Segment Display</a></li>
+  <li><a href="#lab-3-keypad-scanner" id="toc-lab-3-keypad-scanner" class="nav-link" data-scroll-target="#lab-3-keypad-scanner">Lab 3: Keypad Scanner</a></li>
+  <li><a href="#lab-4-digital-audio" id="toc-lab-4-digital-audio" class="nav-link" data-scroll-target="#lab-4-digital-audio">Lab 4: Digital Audio</a></li>
+  <li><a href="#lab-5-interrupts" id="toc-lab-5-interrupts" class="nav-link" data-scroll-target="#lab-5-interrupts">Lab 5: Interrupts</a></li>
+  <li><a href="#lab-6-the-internet-of-things-and-serial-peripheral-interface" id="toc-lab-6-the-internet-of-things-and-serial-peripheral-interface" class="nav-link" data-scroll-target="#lab-6-the-internet-of-things-and-serial-peripheral-interface">Lab 6: The Internet of Things and Serial Peripheral Interface</a></li>
+  <li><a href="#lab-7-the-advanced-encryption-standard" id="toc-lab-7-the-advanced-encryption-standard" class="nav-link" data-scroll-target="#lab-7-the-advanced-encryption-standard">Lab 7: The Advanced Encryption Standard</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ivan’s Blog</h1>
+<h1 class="title">Microprocessor Labs</h1>
 </div>
 
 
@@ -215,40 +167,50 @@ window.Quarto = {
 </header>
 
 
+<p>In E155: Microprocessor Systems, I designed and built digital electronic systems using FPGAs, microcontrollers, and other hardware components to perform specific tasks. Through hands-on labs and continuous iteration, I developed skills in embedded programming, FPGA development, and systematic debugging.</p>
+<hr>
+<section id="lab-1-fpga-mcu-setup-testing" class="level3">
+<h3 class="anchored" data-anchor-id="lab-1-fpga-mcu-setup-testing">Lab 1: FPGA &amp; MCU Setup &amp; Testing</h3>
+<p><strong>Overview:</strong> The purpose of this lab was to assemble a development board with an FPGA and MCU on-board. Then, digital designs were implemented using SystemVerilog to verify the hardware functionality. The board utilizes the onboard high-speed oscillator to drive a 2.4 Hz LED blink, map discrete logic to additional LEDs based on DIP switch inputs, and decode a 4-bit binary input to display hexadecimal characters <code>0</code> through <code>F</code> on a 7-segment display.</p>
+<p><a href="./LAB1.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 1</a> <img src="images/AssembledBoard.jpeg" class="img-fluid" alt="Complete μP Dev Board with all components soldered."></p>
+<hr>
+</section>
+<section id="lab-2-multiplexed-7-segment-display" class="level3">
+<h3 class="anchored" data-anchor-id="lab-2-multiplexed-7-segment-display">Lab 2: Multiplexed 7-Segment Display</h3>
+<p><strong>Overview:</strong> The purpose of this lab was to implement a time-multiplexing scheme to efficiently use the FPGA’s I/O pins. The design drives two independent hexadecimal numbers on a dual seven-segment display using only a single seven-segment decoder module. Additionally, a scanning circuit was developed to interact with a 4x4 matrix keypad by driving its rows and reading its columns. The system was designed using SystemVerilog and verified using Questa Sim before physical implementation on the UPduino v3.1 development board.</p>
+<p><a href="./LAB2.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 2</a> <img src="images/lab2_circuit.jpg" class="img-fluid" alt="Complete Dual Seven Segment Display and Keypad Breadboard."></p>
+<hr>
+</section>
+<section id="lab-3-keypad-scanner" class="level3">
+<h3 class="anchored" data-anchor-id="lab-3-keypad-scanner">Lab 3: Keypad Scanner</h3>
+<p><strong>Overview:</strong> This lab focuses on designing a circuit interface to read a 4x4 matrix keypad and display the results on a dual seven-segment display. The design must display the last two hexadecimal digits pressed, with the most recent entry appearing on the right. Because mechanical switches are prone to bouncing making and breaking connections rapidly over a few milliseconds, the system must implement a debouncing strategy to ensure each key press is registered exactly once. Furthermore, the system must handle multi-press edge cases, ignoring additional inputs if a button is already held down and refusing to lock up if multiple buttons are pressed simultaneously. The design was written in SystemVerilog, verified using Questa Sim, and synthesized for the UPduino v3.1 FPGA.</p>
+<p><a href="./LAB3.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 3</a> <img src="images/keypad_scanner_lab3.jpg" class="img-fluid" alt="Keypad Scanner Circuit"></p>
+<hr>
+</section>
+<section id="lab-4-digital-audio" class="level3">
+<h3 class="anchored" data-anchor-id="lab-4-digital-audio">Lab 4: Digital Audio</h3>
+<p><a href="./LAB4.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 4</a></p>
+<hr>
+</section>
+<section id="lab-5-interrupts" class="level3">
+<h3 class="anchored" data-anchor-id="lab-5-interrupts">Lab 5: Interrupts</h3>
+<p><a href="./LAB5.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 5</a></p>
+<hr>
+</section>
+<section id="lab-6-the-internet-of-things-and-serial-peripheral-interface" class="level3">
+<h3 class="anchored" data-anchor-id="lab-6-the-internet-of-things-and-serial-peripheral-interface">Lab 6: The Internet of Things and Serial Peripheral Interface</h3>
+<p><a href="./LAB6.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 6</a></p>
+<hr>
+</section>
+<section id="lab-7-the-advanced-encryption-standard" class="level3">
+<h3 class="anchored" data-anchor-id="lab-7-the-advanced-encryption-standard">Lab 7: The Advanced Encryption Standard</h3>
+<p><a href="./LAB7.html" class="btn btn-outline-primary" target="_blank">Learn More About Lab 7</a></p>
+<hr>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="cmVmbGVjdGlvbiUyQ2xhYnJlcG9ydA==" data-listing-date-sort="1788850800000" data-listing-file-modified-sort="1789330771359" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="thumbnail"><a href="./posts/first-post.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/first-post.html" class="no-external">Hello E155!</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/first-post.html" class="no-external">
-<p>I am excited to be taking E155 this semester! I am looking forward to learning more about digital design and embedded systems. This corse will help me develop my skills in hardware design and programming, and I am eager to apply these skills to real-world projects in the future.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/first-post.html" class="no-external">
-<div class="listing-date">
-Sep 8, 2026
-</div>
-<div class="listing-author">
-Ivan Jimenez Pineda
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

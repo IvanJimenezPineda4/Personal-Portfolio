@@ -7,6 +7,13 @@
     "text": "All E155 Microprocessors labs are referenced from the provided lab resources from the course linked below.\nLink to course website"
   },
   {
+    "objectID": "Resources.html#microprocessors-e155",
+    "href": "Resources.html#microprocessors-e155",
+    "title": "Resources",
+    "section": "",
+    "text": "All E155 Microprocessors labs are referenced from the provided lab resources from the course linked below.\nLink to course website"
+  },
+  {
     "objectID": "LAB3.html",
     "href": "LAB3.html",
     "title": "Lab 3: Keypad Scanner",
@@ -105,6 +112,13 @@
     "text": "AI Reflection\nAI Prompt: Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.\nThe prompt was given to ChatGPT, and it created a good counter using systemverilog syntax. However, when the code was imported into Lattice Radiant and synthesized, it failed with the following error: Error ../source/impl_1/ai_proto.sv(15): instantiating unknown module SB_HFOSC. VERI-1063. When the error was fed back to ChatGPT, it was not able to correct it.\nOverall, I would rate the quality of ChatGPT’s output as a 5/10 because it did correctly calculate that a 48MHz clock required a 12,000,000 count to toggle twice a second for a 2Hz blink rate but it could not correct error messages from the synthesis."
   },
   {
+    "objectID": "engineering_projects.html",
+    "href": "engineering_projects.html",
+    "title": "Engineering Projects",
+    "section": "",
+    "text": "Autonomous Underwater Vehicle\nAugust 2025 - May 2026\n\n\n\nAUV Deployed at Dana Point Harbor\n\n\n\nEngineered and fabricated a low-cost autonomous electro-mechanical robot featuring a custom winch mechanism to deploy a tethered sensor payload for depth-resolved environmental data collection.\nDesigned analog signal conditioning circuitry, utilizing unity gain and inverting offset operational amplifiers, to interface an NTC thermistor, pressure sensor, and amorphous silicon solar cell with a Teensy microcontroller.\nProgrammed the Teensy using Arduino IDE for synchronized sensor logging and utilized MATLAB to calibrate raw data, capturing temperature and luminosity fluctuations relative to depth during coastal field deployments at Dana Point Harbor.\n\n\n\nThe Machinist’s Hammer\nMarch 2025 - April 2025\n\n\n\nCompletely Machined and Assembled Hammer\n\n\n\nMachined a multi-material alloy steel hammer including a hard face, soft face, handle, and a stand (AISI 4340 and AISI 1015).\nApplied heat treatment (857°C) to hard face and verified results using a Rockwell hardness tester (RC 43-48).\nUsed a mill, lathe, vertical bandsaw, belt sander, sand blaster, laser cutter, and 3D printer.\n\n\n\nBrachistochrone Curve Model\nFebruary 2025 - May 2025\n\nModeled cycloid, linear, and parabolic descent paths in SolidWorks using the Equation Driven Curve feature to optimize geometric accuracy and demonstrate kinematic principles for a client-requested physics demonstration.\nFabricated the primary ramp structures and custom corner fixtures using a CNC Router, ensuring precise assembly and tolerances.\n\n\n\nMITES Summer Scholar Symposium Project\nJune 2023 - July 2023\n\nCo-developed “Project Beatzthoven,” an interactive machine learning application built in Python that algorithmically generates classical music utilizing Markov Chain logic.\nApplied systematic debugging practices and software engineering fundamentals to process data structures and balance competing project priorities within a strict 6-week development cycle to present at an MIT showcase."
+  },
+  {
     "objectID": "blog.html",
     "href": "blog.html",
     "title": "Ivan’s Blog",
@@ -168,13 +182,6 @@
     "text": "AI Reflection\nAI Prompt 1 (Without Context): Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits.\nAI Prompt 2 (With Lab 1 Context Attached): Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files.\nReflection on the AI Prototype:\nWhen given the first prompt with no context, ChatGPT-5 generated a generic multiplexer. It created its own seven-segment case statement from scratch and used an arbitrary clk input. It also implemented a sequential flip-flop block to alternate registering the outputs to two completely separate 7-bit buses (seg0 and seg1).\nAdding the Lab 1 files as context in the second prompt improved the hardware accuracy of the response. ChatGPT correctly instantiated the Lattice HSOSC to generate the clock, reused my exact seven_segment combinational module from Lab 1, and implemented a proper counter to divide the 24 MHz clock down to a 1 kHz switching frequency.\nHowever, the generated code still contained flaws based on my prompt’s phrasing. Because I asked it to drive two sets of seven output bits, the LLM created two 7-bit outputs (seg0 and seg1). In reality, time-multiplexing a dual display involves sharing a single 7-bit segment bus and using transistors to toggle the common anodes one at a time.\nI would rate the quality of the output an 8/10. The SystemVerilog syntax was great and it correctly utilized always_comb and always_ff blocks. The code would synthesize in Lattice Radiant the first time around without syntax errors."
   },
   {
-    "objectID": "Resources.html#microprocessors-e155",
-    "href": "Resources.html#microprocessors-e155",
-    "title": "Resources",
-    "section": "",
-    "text": "All E155 Microprocessors labs are referenced from the provided lab resources from the course linked below.\nLink to course website"
-  },
-  {
     "objectID": "microprocessor_projects.html",
     "href": "microprocessor_projects.html",
     "title": "Microprocessor Labs",
@@ -187,12 +194,5 @@
     "title": "Professional Experience",
     "section": "",
     "text": "CRPA Characterization Clinic Project - The Aerospace Corporation / Federal Aviation Administration\nSeptember 2026 - Present\n\nMachined custom mounting fixtures for mechanical positioning turntables using manual operations, designing the hardware so the Controlled Reception Pattern Antenna may be placed securely inside the anechoic chamber for testing.\nExecuted preliminary benchtop RF test and measurement procedures using a Vector Network Analyzer and dual probe antennas to prepare for upcoming element-level and array-level characterization of the CRPA.\nCollaborated with technical liaisons from The Aerospace Corporation and FAA to evaluate key parameters of a GPS CRPA anti-jamming antenna, supporting ongoing research to inform use of CRPAs for commercial aviation safety.\n\n\n\nMechanical Engineering Intern - ALLFAST Fastening Systems (Penn Aero)\nMay 2026 - August 2026\n\nCreated 65 tooling layout drawings and modeled parts for tooling assemblies using SolidWorks to support over 224 million parts from the production backlog.\nUpdated BOMs in the ERP system with accurate tooling numbers and quantities, enabling proper tracking and forecasting to mitigate heading downtime as a result of tooling shortages to allow for tools to be ordered quickly through MRP.\nValidated tooling layouts and BOM updates by physically assembling tooling and conducting reviews with machine operators and engineering teams to ensure accuracy.\n\n\n\nMachine Shop Proctor / Workshop Proctor - Harvey Mudd College\nMay 2025 - Present\n\nInstruct students on the safe operation of machining equipment (Manual Mill, Lathe, CNC Router), emphasizing adherence to process specifications and tolerances down to 0.001”.\nTrain students to interpret technical drawings and apply GD&T to optimize production processes and reduce fabrication errors.\nGuided students through manual machining and metalworking processes to safely fabricate custom projects, including machined pens, rings, spinning tops, and sheet metal flowers."
-  },
-  {
-    "objectID": "engineering_projects.html",
-    "href": "engineering_projects.html",
-    "title": "Engineering Projects",
-    "section": "",
-    "text": "Autonomous Underwater Vehicle\nAugust 2025 - May 2026\n\n\n\nAUV Deployed at Dana Point Harbor\n\n\n\nEngineered and fabricated a low-cost autonomous electro-mechanical robot featuring a custom winch mechanism to deploy a tethered sensor payload for depth-resolved environmental data collection.\nDesigned analog signal conditioning circuitry, utilizing unity gain and inverting offset operational amplifiers, to interface an NTC thermistor, pressure sensor, and amorphous silicon solar cell with a Teensy microcontroller.\nProgrammed the Teensy using Arduino IDE for synchronized sensor logging and utilized MATLAB to calibrate raw data, capturing temperature and luminosity fluctuations relative to depth during coastal field deployments at Dana Point Harbor.\n\n\n\nThe Machinist’s Hammer\nMarch 2025 - April 2025\n\n\n\nCompletely Machined and Assembled Hammer\n\n\n\nMachined a multi-material alloy steel hammer including a hard face, soft face, handle, and a stand (AISI 4340 and AISI 1015).\nApplied heat treatment (857°C) to hard face and verified results using a Rockwell hardness tester (RC 43-48).\nUsed a mill, lathe, vertical bandsaw, belt sander, sand blaster, laser cutter, and 3D printer.\n\n\n\nBrachistochrone Curve Model\nFebruary 2025 - May 2025\n\nModeled cycloid, linear, and parabolic descent paths in SolidWorks using the Equation Driven Curve feature to optimize geometric accuracy and demonstrate kinematic principles for a client-requested physics demonstration.\nFabricated the primary ramp structures and custom corner fixtures using a CNC Router, ensuring precise assembly and tolerances.\n\n\n\nMITES Summer Scholar Symposium Project\nJune 2023 - July 2023\n\nCo-developed “Project Beatzthoven,” an interactive machine learning application built in Python that algorithmically generates classical music utilizing Markov Chain logic.\nApplied systematic debugging practices and software engineering fundamentals to process data structures and balance competing project priorities within a strict 6-week development cycle to present at an MIT showcase."
   }
 ]

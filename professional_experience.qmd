@@ -5,6 +5,8 @@ title: "Professional Experience"
 ### CRPA Characterization Clinic Project - The Aerospace Corporation / Federal Aviation Administration
 *September 2026 - Present*
 
+![Fall 2026 Harvey Mudd Clinic Project: FAA and The Aerospace Corporation](images/clinic_logo.png)
+
 * Machined custom mounting fixtures for mechanical positioning turntables using manual operations, designing the hardware so the Controlled Reception Pattern Antenna may be placed securely inside the anechoic chamber for testing.
 * Executed preliminary benchtop RF test and measurement procedures using a Vector Network Analyzer and dual probe antennas to prepare for upcoming element-level and array-level characterization of the CRPA.
 * Collaborated with technical liaisons from The Aerospace Corporation and FAA to evaluate key parameters of a GPS CRPA anti-jamming antenna, supporting ongoing research to inform use of CRPAs for commercial aviation safety.
@@ -12,12 +14,16 @@ title: "Professional Experience"
 ### Mechanical Engineering Intern - ALLFAST Fastening Systems (Penn Aero)
 *May 2026 - August 2026*
 
+![Summer 2026 Mechanical Engineering Internship: ALLFAST Fastening Systems](images/ALLFAST.png)
+
 * Created 65 tooling layout drawings and modeled parts for tooling assemblies using SolidWorks to support over 224 million parts from the production backlog.
 * Updated BOMs in the ERP system with accurate tooling numbers and quantities, enabling proper tracking and forecasting to mitigate heading downtime as a result of tooling shortages to allow for tools to be ordered quickly through MRP.
 * Validated tooling layouts and BOM updates by physically assembling tooling and conducting reviews with machine operators and engineering teams to ensure accuracy.
 
 ### Machine Shop Proctor / Workshop Proctor - Harvey Mudd College
 *May 2025 - Present*
+
+![Summer 2026 Mechanical Engineering Internship: ALLFAST Fastening Systems](images/machine_shop.png)
 
 * Instruct students on the safe operation of machining equipment (Manual Mill, Lathe, CNC Router), emphasizing adherence to process specifications and tolerances down to 0.001".
 * Train students to interpret technical drawings and apply GD&T to optimize production processes and reduce fabrication errors.

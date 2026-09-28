@@ -9,10 +9,14 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: blog.qmd
-        text: Blog
+      - href: professional_experience.qmd
+        text: Professional Experience
+      - href: engineering_projects.qmd
+        text: Engineering Projects
       - href: microprocessor_projects.qmd
         text: Microprocessor Projects
+      - href: blog.qmd
+        text: Blog
       - href: Resources.qmd
         text: Resources
 

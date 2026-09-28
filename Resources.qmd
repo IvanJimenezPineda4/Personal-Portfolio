@@ -6,6 +6,7 @@ format: html
 ## Microprocessors (E155)
 
 All E155 Microprocessors labs are referenced from the provided lab resources from the course linked below.
+
 [Link to course website](https://hmc-e155.github.io/)
 
 ---

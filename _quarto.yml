@@ -3,8 +3,9 @@ project:
 
 website:
   title: "Ivan Jimenez Pineda Portfolio"
-  site-url: "https://ivanjimenezpineda4.github.io" # Add this line
+  site-url: "https://ivanjimenezpineda4.github.io" 
   navbar:
+    background: "#E5A823" 
     left:
       - href: index.qmd
         text: Home

@@ -141,6 +141,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Lab 4: Digital Audio</h1>
+<p class="subtitle lead">Ivan Jimenez Pineda | ijimenezpineda@g.hmc.edu | September 30, 2026</p>
 </div>
 
 
@@ -157,8 +158,57 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This lab focuses on utilizing the internal peripheral timers of the STM32L432KC microcontroller to generate digital audio. By producing precisely timed PWM square waves, the microcontroller functions as a digital synthesizer capable of playing musical sequences with varying pitches and durations. The system was programmed in C to play Beethoven’s <em>Für Elise</em> and the <em>Super Mario Bros.</em> theme by interacting directly with memory-mapped hardware registers. An external LM386 audio amplifier circuit was constructed to safely drive an 8-ohm speaker, incorporating a potentiometer for manual volume control.</p>
+<p><img src="images/LAB4_circuit.jpeg" class="img-fluid" alt="Physical circuit setup for MCU, potentiometer, amplifier, and speaker components."> <em>Figure 1: Complete breadboard wiring including the STM32L432KC, LM386 amplifier, and speaker.</em></p>
+<p><a href="https://github.com/IvanJimenezPineda4/E155-Lab-4">View the Source Code on GitHub</a></p>
+<hr>
+</section>
+<section id="hardware-design" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-design">Hardware Design</h2>
+<p>Driving an 8-ohm speaker directly from the microcontroller’s GPIO pins would draw excessive current, risking permanent damage to the MCU. To safely buffer the signal and provide sufficient driving current, an LM386 audio amplifier was placed between the MCU and the speaker.</p>
+<p>The audio signal is generated via PWM on pin <strong>PB6</strong>, which corresponds to the complementary timer output <code>TIM16_CH1N</code>. This signal is routed through a 10 kΩ potentiometer acting as a voltage divider, allowing the attenuation of the input signal to the LM386 amplifier for volume control. The output of the LM386 passes through a 220 µF series capacitor accompanied by a 0.05 µF capacitor and 10 Ω resistor in series to ground to provide high-frequency stability. Additionally, pin <strong>PB3</strong> is configured as a standard digital output connected internally to the Nucleo board’s LD3 LED, flashing in sync with every played note to provide visual feedback.</p>
+<p><img src="images/LAB4_schematic.jpg" class="img-fluid" alt="Electrical schematic showing the MCU, potentiometer, and LM386 amplifier circuit."> <em>Figure 2: Schematic of the off-board audio amplification circuit.</em></p>
+<hr>
+</section>
+<section id="software-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="software-architecture">Software Architecture</h2>
+<p>The software manipulates memory-mapped registers directly using custom C structs (<code>FLASH_TypeDef</code>, <code>GPIO</code>, <code>TIM_TypeDef</code>, <code>RCC_TypeDef</code>) to enable clocks, configure pins, and control timers. Two hardware timers coordinate the audio playback:</p>
+<ul>
+<li><p><strong>TIM16 (Pitch Generation):</strong> <code>TIM16</code> is configured in PWM Mode 1 to generate the square waves for the audio frequencies. The system clock (80 MHz) is stepped down using a prescaler (<code>PSC</code>) of 79, resulting in a 1 MHz timer clock. The Auto-Reload Register (<code>ARR</code>) is updated for each note to set the pitch, while the Capture Compare Register (<code>CCR1</code>) is set to half the <code>ARR</code> value to maintain a 50% duty cycle. Because PB6 is a complementary output, bit 2 (<code>CC1NE</code>) of the <code>CCER</code> register is toggled to enable and disable the audio output, properly handling rests (0 Hz).</p></li>
+<li><p><strong>TIM15 (Duration Control):</strong> <code>TIM15</code> manages the timing delays that dictate how long each note is held. It utilizes a prescaler of 3000 to slow the timer count, preventing 16-bit register overflow during long notes. The program stops execution by using the <code>TIM15</code> Status Register (<code>SR</code>) update interrupt flag (<code>UIF</code>) until the specified duration elapses.</p></li>
+</ul>
+<hr>
+</section>
+<section id="system-calculations" class="level2">
+<h2 class="anchored" data-anchor-id="system-calculations">System Calculations</h2>
+<section id="frequency-range-and-duration-range" class="level3">
+<h3 class="anchored" data-anchor-id="frequency-range-and-duration-range">Frequency Range and Duration Range</h3>
+<p><code>TIM16</code> generates the PWM frequency, fed by an 80 MHz clock with a prescaler (PSC) of 79. <code>TIM15</code> manages the note delays using a prescaler of 3000.</p>
+<p><img src="images/freq_calc.jpg" class="img-fluid" alt="Frequency and Duration Range Calculations."> <em>Figure 3: Calculations of the Frequency Range and Duration Range .</em></p>
+</section>
+<section id="frequency-accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="frequency-accuracy">Frequency Accuracy</h3>
+<p>The design must replicate notes within a 1% accuracy margin between 220 Hz and 1000 Hz. The error stems from integer truncation when calculating the <code>ARR</code> value. Checking these bounds is sufficient to prove compliance. Because integer truncation causes the frequency error, higher frequencies which require smaller <code>ARR</code> values suffer from larger percentage errors.</p>
+<p><img src="images/accuracy_calc.jpg" class="img-fluid" alt="Frequency Accuracy Calculations."> <em>Figure 4: Calculations of the Frequency Accuracy across 220Hz to 1,000Hz .</em></p>
+<hr>
+</section>
+</section>
+<section id="statement-of-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="statement-of-requirements">Statement of Requirements</h2>
+<p>The digital audio system meets all Proficiency and Excellence requirements for Lab 4. The design successfully plays both <em>Für Elise</em> and the <em>Super Mario Bros.</em> theme at their correct tempos. The hardware utilizes an LM386 audio amplifier to safely drive the speaker and includes a potentiometer for volume control. The software defines all memory-mapped registers manually using custom C structs, avoiding CMSIS headers entirely. Note durations and rests are managed using hardware timers, and all frequency calculations avoid division-by-zero errors.</p>
+<hr>
+</section>
+<section id="ai-prototype-reflection" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype-reflection">AI Prototype Reflection</h2>
+<p><strong>Quality and Speed of Output:</strong> The quality of the ChatGPT5’s output was faster than manually searching through the 1600-page STM32L432KC Reference Manual. Instead of utilizing <code>Ctrl-F</code> to hunt for scattered information across the RCC and Timer chapters, the LLM immediately synthesized the necessary configuration steps and provided the core equation for frequency.</p>
+<p><strong>Reasoning and Timer Selection:</strong> The LLM recommended using <code>TIM2</code> because of its 32-bit counter and 4-channel GPIO routing. Because the target frequency range was only 220 Hz to 1 kHz, the 16-bit counters of TIM15 and TIM16 were more than sufficient, and <code>TIM16_CH1N</code> routed perfectly to my chosen output pin (PB6).</p>
+<p><strong>Document Search</strong> The most impressive part of the interaction occurred when the RM0394 manual was attached to the prompt. As a document search assistant, the LLM proved better to standard keyword searches.</p>
+<p><strong>Time Spent:</strong> Approximately 17 hours were spent developing, debugging, and documenting this lab.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

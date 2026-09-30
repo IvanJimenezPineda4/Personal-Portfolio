@@ -38,7 +38,11 @@ This lab focuses on designing a circuit interface to read a 4x4 matrix keypad an
 
 ### Lab 4: Digital Audio
 
+**Overview:**
+This lab focuses on utilizing the internal peripheral timers of the STM32L432KC microcontroller to generate digital audio. By producing precisely timed PWM square waves, the microcontroller functions as a digital synthesizer capable of playing musical sequences with varying pitches and durations. The system was programmed in C to play Beethoven's *Für Elise* and the *Super Mario Bros.* theme by interacting directly with memory-mapped hardware registers. An external LM386 audio amplifier circuit was constructed to safely drive an 8-ohm speaker, incorporating a potentiometer for manual volume control.
+
 [Learn More About Lab 4](LAB4.qmd){.btn .btn-outline-primary target="_blank"}
+![Physical circuit setup for MCU, potentiometer, amplifier, and speaker components.](images/LAB4_circuit.jpeg)
 
 ---
 
